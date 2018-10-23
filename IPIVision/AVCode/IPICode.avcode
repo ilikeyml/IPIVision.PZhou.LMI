@@ -1,0 +1,2876 @@
+public Main()
+{
+	SubLoader
+	(
+		outObject: con_90961b5e_044e_48ec_8f09_70bbf82e75ac
+		outXScale: Nil
+	)
+
+	SubBottomLoader
+	(
+		outObject: con_55af02d4_1bb2_47d7_8c59_7a38b45f3e0d
+	)
+
+	MainBottomLoader
+	(
+		outObject: con_6cee363b_fd32_48f2_89e2_5c5b49d8f72c
+	)
+
+	MainLoader
+	(
+		outObject: con_6aef098c_68c4_4b84_8df2_5c4b66ca6682
+	)
+
+	AccessSurface
+	(
+		inSurface: con_6aef098c_68c4_4b84_8df2_5c4b66ca6682
+		outWidth: Nil
+		outHeight: Nil
+		outPointType: Nil
+		outPointByteSize: Nil
+		outPitch: Nil
+		outXOffset: Nil
+		outXScale: Nil
+		outYOffset: Nil
+		outYScale: Nil
+		outZOffset: Nil
+		outZScale: Nil
+	)
+
+	disabled MainBattery
+	(
+		inMainSurface: con_6aef098c_68c4_4b84_8df2_5c4b66ca6682
+		outCalcSurface: Nil
+		outFAI7_1: Nil
+		outFAI7_2: Nil
+		outFAI8: Nil
+	)
+
+	disabled MainBottomRef
+	(
+		inMainBottom: con_6cee363b_fd32_48f2_89e2_5c5b49d8f72c
+		outRefVerticalPlane: Nil
+		outRefPlane: Nil
+	)
+
+	SubBattery
+	(
+		inObject: con_90961b5e_044e_48ec_8f09_70bbf82e75ac
+		outSubCalcSurface: con_9a433205_8067_4806_8a0c_35cf61631839
+	)
+
+	SubBottomRef
+	(
+		inObject: con_55af02d4_1bb2_47d7_8c59_7a38b45f3e0d
+		outBottomRefVerticalPlane: con_08870f25_a7ed_4f38_8a68_47ae4d5a1b52
+		outRefPlane: Nil
+	)
+
+	disabled FlatnessCalc
+	(
+		inRefVerticalPlane: Nil
+		inPoints:
+			Point3DArray
+			{
+			}
+		outDistMax: Nil
+	)
+
+	disabled SavePlane
+	(
+		inFile: ""
+		inPlane: Plane3D()
+	)
+
+	disabled SavePoints
+	(
+		inPoints:
+			Point3DArray
+			{
+			}
+		inFile: ""
+	)
+}
+
+public SurfaceToDepthImage(Surface inObject, Image outDepthImage, Image outNormImage, Image outImageNormResize) step
+{
+	AccessSurface
+	(
+		inSurface: inObject
+		outWidth: Nil
+		outHeight: Nil
+		outPointType: Nil
+		outPointByteSize: Nil
+		outPitch: Nil
+		outXOffset: Nil
+		outXScale: con_b08aed04_f0aa_42c2_9572_c0f8f371095a
+		outYOffset: Nil
+		outYScale: con_ef7b600a_2b2c_4dde_95bc_31ca42be3ac7
+		outZOffset: Nil
+		outZScale: Nil
+	)
+
+	SurfaceToImage
+	(
+		inSurface: inObject
+		outImage: con_fc4a9050_5bf4_4aa9_88de_638a18e9d835
+	)
+
+	ConvertPixelType
+	(
+		inImage: con_fc4a9050_5bf4_4aa9_88de_638a18e9d835
+		inRoi: Nil
+		inNewType: Int32
+		inDepthDelta: 0
+		outImage: con_9edfd483_101c_4af6_b89c_306f726137ed
+	)
+
+	AddToImage
+	(
+		inImage: con_9edfd483_101c_4af6_b89c_306f726137ed
+		inRoi: Nil
+		inValue: 32768.000000
+		outImage: con_7bb4c94e_3bd0_49d9_bac2_a88ad1cd6354
+	)
+
+	ConvertPixelType
+	(
+		inImage: con_7bb4c94e_3bd0_49d9_bac2_a88ad1cd6354
+		inRoi: Nil
+		inNewType: UInt16
+		inDepthDelta: 0
+		outImage: con_c2f1f63b_cf46_48d2_9b6c_d3d3595806dc
+	)
+
+	expression
+	{
+		Double inXScale
+		Double inYScale
+		Double outYScale = "inYScale/inXScale"
+	}
+	(
+		inXScale: con_b08aed04_f0aa_42c2_9572_c0f8f371095a
+		inYScale: con_ef7b600a_2b2c_4dde_95bc_31ca42be3ac7
+		outYScale: con_0146c31f_a329_4eed_b514_66a86a7b2e87
+	)
+
+	//:HIDDENPORT[inResizeMethod] TRUE
+	ResizeImage_Relative
+	(
+		inImage: con_c2f1f63b_cf46_48d2_9b6c_d3d3595806dc
+		inHorizontalScale: 1.000000
+		inVerticalScale: con_0146c31f_a329_4eed_b514_66a86a7b2e87
+		inResizeMethod: NearestNeighbour
+		outImage: con_1338a52e_6aaf_439e_9b03_867af7c56f30
+	)
+
+	//:HIDDENPORT[inNewMinimum] TRUE
+	//:HIDDENPORT[inNewMaximum] TRUE
+	//:HIDDENPORT[inSaturateBrightestFraction] TRUE
+	//:HIDDENPORT[inSaturateDarkestFraction] TRUE
+	NormalizeImage
+	(
+		inImage: con_1338a52e_6aaf_439e_9b03_867af7c56f30
+		inRoi: Nil
+		inNewMinimum: 0.000000
+		inNewMaximum: 255.000000
+		inSaturateBrightestFraction: 0.000000
+		inSaturateDarkestFraction: 0.000000
+		outImage: con_c60dae57_f696_4b04_954b_60cbb5990679
+		outA: Nil
+		outB: Nil
+		diagLinearNormalizedRegion: Nil
+	)
+
+	//:HIDDENPORT[inNewMinimum] TRUE
+	//:HIDDENPORT[inNewMaximum] TRUE
+	//:HIDDENPORT[inSaturateBrightestFraction] TRUE
+	//:HIDDENPORT[inSaturateDarkestFraction] TRUE
+	NormalizeImage
+	(
+		inImage: con_c2f1f63b_cf46_48d2_9b6c_d3d3595806dc
+		inRoi: Nil
+		inNewMinimum: 0.000000
+		inNewMaximum: 255.000000
+		inSaturateBrightestFraction: 0.000000
+		inSaturateDarkestFraction: 0.000000
+		outImage: con_f67efa09_9823_4893_8a4c_8b95860a517e
+		outA: Nil
+		outB: Nil
+		diagLinearNormalizedRegion: Nil
+	)
+
+	outDepthImage = con_c2f1f63b_cf46_48d2_9b6c_d3d3595806dc
+
+	outNormImage = con_f67efa09_9823_4893_8a4c_8b95860a517e
+
+	outImageNormResize = con_c60dae57_f696_4b04_954b_60cbb5990679
+}
+
+public SubLoader(Surface outObject, Double outXScale) step
+{
+	//:HIDDENPORT[inExtensions] TRUE
+	//:HIDDENPORT[inSortingOrder] TRUE
+	//:HIDDENPORT[inRepeat] TRUE
+	//:HIDDENPORT[inProcessSubdirectories] TRUE
+	//:HIDDENPORT[inInvert] TRUE
+	//:HIDDENPORT[outFileName] TRUE
+	EnumerateFiles
+	(
+		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\LMI 1013\\AVData\\Sub"
+		inExtensions: "avdata"
+		inSortingOrder: Name
+		inRepeat: False
+		inProcessSubdirectories: False
+		inInvert: False
+		outFilePath: con_427f1376_10e5_460f_9423_b9d3e14450e7
+		outFileName: Nil
+	)
+
+	//:HIDDENPORT[inStreamMode] TRUE
+	LoadObject<Surface>
+	(
+		inFile: con_427f1376_10e5_460f_9423_b9d3e14450e7
+		inStreamMode: Binary
+		outObject: con_64e586e9_d1ed_4343_9754_ec2381fada41
+	)
+
+	outObject = con_64e586e9_d1ed_4343_9754_ec2381fada41
+
+	outXScale = 0.000000D
+}
+
+public MainLoader(Surface outObject) step
+{
+	//:HIDDENPORT[inExtensions] TRUE
+	//:HIDDENPORT[inSortingOrder] TRUE
+	//:HIDDENPORT[inRepeat] TRUE
+	//:HIDDENPORT[inProcessSubdirectories] TRUE
+	//:HIDDENPORT[inInvert] TRUE
+	//:HIDDENPORT[outFileName] TRUE
+	EnumerateFiles
+	(
+		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\LMI 1013\\AVData\\Main"
+		inExtensions: "avdata"
+		inSortingOrder: Name
+		inRepeat: False
+		inProcessSubdirectories: False
+		inInvert: False
+		outFilePath: con_d3229860_f2d9_4a75_a5c5_106f493f42c0
+		outFileName: Nil
+	)
+
+	//:HIDDENPORT[inStreamMode] TRUE
+	LoadObject<Surface>
+	(
+		inFile: con_d3229860_f2d9_4a75_a5c5_106f493f42c0
+		inStreamMode: Binary
+		outObject: con_5a05b9d5_d0d5_4fe9_a656_8b2b7da7e770
+	)
+
+	outObject = con_5a05b9d5_d0d5_4fe9_a656_8b2b7da7e770
+}
+
+public MainBattery(Surface inMainSurface, Surface? outCalcSurface, Real? outFAI7_1, Real? outFAI7_2, Real? outFAI8) step
+{
+	AccessSurface
+	(
+		inSurface: inMainSurface
+		outWidth: Nil
+		outHeight: Nil
+		outPointType: Nil
+		outPointByteSize: Nil
+		outPitch: Nil
+		outXOffset: Nil
+		outXScale: con_97ca781e_66b9_468d_8492_453a662fe6f9
+		outYOffset: Nil
+		outYScale: Nil
+		outZOffset: Nil
+		outZScale: Nil
+	)
+
+	SurfaceToDepthImage
+	(
+		inObject: inMainSurface
+		outDepthImage: Nil
+		outNormImage: con_a047fbb7_6f3f_4e7c_8785_0503e18604bb
+		outImageNormResize: con_9265af36_51a9_4444_8b07_51a9561da7c1
+	)
+
+	MainCoordinateSystemNoReSize
+	(
+		inNormImage: con_a047fbb7_6f3f_4e7c_8785_0503e18604bb
+		outCoordinateSystem: con_1faa8ae2_01ea_45d7_99f2_b8df0a59140f
+	)
+
+	MainSurfaceValue
+	(
+		inNormImage: con_a047fbb7_6f3f_4e7c_8785_0503e18604bb
+		inCoordinateSystem: con_1faa8ae2_01ea_45d7_99f2_b8df0a59140f
+		inMainSurface: inMainSurface
+		outCalcSurface: con_792546c0_eb52_4407_bb12_6cf6ca99e861
+	)
+
+	MainCoordinateSystemResize
+	(
+		inImageNormResize: con_9265af36_51a9_4444_8b07_51a9561da7c1
+		outCoordinateSystemResize: con_53fe9002_e662_4779_9319_4f31d45a3258
+	)
+
+	FAI7_1
+	(
+		inImageNormResize: con_9265af36_51a9_4444_8b07_51a9561da7c1
+		inCoordinateSystemResize: con_53fe9002_e662_4779_9319_4f31d45a3258
+		inXScale: con_97ca781e_66b9_468d_8492_453a662fe6f9
+		outFAI7_1: con_7676672b_b425_4a74_8a05_b6f343be5fdd
+	)
+
+	FAI7_2
+	(
+		inXScale: con_97ca781e_66b9_468d_8492_453a662fe6f9
+		inImageNormResize: con_9265af36_51a9_4444_8b07_51a9561da7c1
+		inCoordinateSystemResize: con_53fe9002_e662_4779_9319_4f31d45a3258
+		outFAI7_2: con_f6c93f24_8591_4605_8cc1_7f56d964967b
+	)
+
+	FAI8
+	(
+		inXScale: con_97ca781e_66b9_468d_8492_453a662fe6f9
+		inImageNormResize: con_9265af36_51a9_4444_8b07_51a9561da7c1
+		inCoordinateSystemResize: con_53fe9002_e662_4779_9319_4f31d45a3258
+		outFAI8: con_337e161a_ff31_46bc_9c0d_03c43ff39048
+	)
+
+	outCalcSurface = con_792546c0_eb52_4407_bb12_6cf6ca99e861
+
+	outFAI7_1 = con_7676672b_b425_4a74_8a05_b6f343be5fdd
+
+	outFAI7_2 = con_f6c93f24_8591_4605_8cc1_7f56d964967b
+
+	outFAI8 = con_337e161a_ff31_46bc_9c0d_03c43ff39048
+}
+
+public MainCoordinateSystemNoReSize(Image inNormImage, CoordinateSystem2D? outCoordinateSystem) step
+{
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 1046.264771
+								Y: 247.713501
+							)
+						Point2:
+							Point2D
+							(
+								X: 1041.594849
+								Y: 573.051025
+							)
+					)
+				Width: 162.678284
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: BrightToDark
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_ac29cd57_5609_4f00_82b4_a4029ffb652d
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_ac29cd57_5609_4f00_82b4_a4029ffb652d
+		outLine: con_6a5450c3_98c1_4036_9c4c_bc8d0656eb0f
+	)
+
+	LineOrientation
+	(
+		inLine: con_6a5450c3_98c1_4036_9c4c_bc8d0656eb0f
+		outOrientationAngle: con_03f3f568_3254_429c_9a13_e49f9371d026
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 491.865967
+								Y: 747.208252
+							)
+						Point2:
+							Point2D
+							(
+								X: 1331.393066
+								Y: 744.570862
+							)
+					)
+				Width: 161.782501
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 40
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Tukey
+		outSegment: con_61cc3a49_bcc9_4946_8987_59767554f967
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_61cc3a49_bcc9_4946_8987_59767554f967
+		outLine: con_f1efbb54_d7d2_44a1_abee_2194bf769238
+	)
+
+	LineLineIntersection
+	(
+		inLine1: con_6a5450c3_98c1_4036_9c4c_bc8d0656eb0f
+		inLine2: con_f1efbb54_d7d2_44a1_abee_2194bf769238
+		outIntersectionPoint: con_cea23253_a622_4d96_a096_b8dd5b4d8db0
+	)
+
+	MakeCoordinateSystem
+	(
+		inOrigin: con_cea23253_a622_4d96_a096_b8dd5b4d8db0
+		inAngle: con_03f3f568_3254_429c_9a13_e49f9371d026
+		inScale: 1.000000
+		outCoordinateSystem: con_e247b2aa_2446_4777_8838_4268d17eedef
+	)
+
+	outCoordinateSystem = con_e247b2aa_2446_4777_8838_4268d17eedef
+}
+
+public MainSurfaceValue(Image inNormImage, CoordinateSystem2D? inCoordinateSystem, Surface inMainSurface, Surface? outCalcSurface) step
+{
+	AccessImage
+	(
+		inImage: inNormImage
+		outWidth: con_e9c5d128_009b_4982_898c_9f7c1c67d683
+		outHeight: con_86ed6a3e_62e1_46ff_8261_549b41910aa4
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -489.488892
+						Y: -300.412109
+					)
+				Angle: 0.000000
+				Width: 350.949158
+				Height: 219.046478
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: con_e9c5d128_009b_4982_898c_9f7c1c67d683
+		inFrameHeight: con_86ed6a3e_62e1_46ff_8261_549b41910aa4
+		outRegion: con_c6819210_d1fd_4991_825f_76d1c8dc352e
+		outAlignedRectangle: Nil
+	)
+
+	//:HIDDENPORT[inPreserveDimensions] TRUE
+	CropSurface
+	(
+		inSurface: inMainSurface
+		inRoi: con_c6819210_d1fd_4991_825f_76d1c8dc352e
+		inMinX: Nil
+		inMaxX: Nil
+		inMinY: Nil
+		inMaxY: Nil
+		inMinZ: Nil
+		inMaxZ: Nil
+		inPreserveDimensions: False
+		outSurface: con_9c3ea7bb_8868_4379_a739_28ba07974227
+		outRejected: Nil
+	)
+
+	outCalcSurface = con_9c3ea7bb_8868_4379_a739_28ba07974227
+}
+
+public SideValue() step
+{
+}
+
+public FAI7_1(Image inImageNormResize, CoordinateSystem2D? inCoordinateSystemResize, Double inXScale, Real? outFAI7_1) step
+{
+	AccessImage
+	(
+		inImage: inImageNormResize
+		outWidth: con_0aa4ce7c_8c66_4505_bf4a_5cfc99f563d2
+		outHeight: con_3e7036f6_a166_464c_a2e7_06deca1d998c
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	//:BGIMAGE[inRectangle] @macroInput:inImageNormResize
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -223.377014
+						Y: -438.338440
+					)
+				Angle: 0.000000
+				Width: 282.342682
+				Height: 449.999634
+			)
+		inRectangleAlignment: inCoordinateSystemResize
+		inFrameWidth: con_0aa4ce7c_8c66_4505_bf4a_5cfc99f563d2
+		inFrameHeight: con_3e7036f6_a166_464c_a2e7_06deca1d998c
+		outRegion: con_7c8ae84e_c71f_4a9d_9b87_a6cc1f860bb1
+		outAlignedRectangle: Nil
+	)
+
+	//:HIDDENPORT[inOutsidePixel] TRUE
+	CropImageToRegion
+	(
+		inImage: inImageNormResize
+		inRegion: con_7c8ae84e_c71f_4a9d_9b87_a6cc1f860bb1
+		inOutsidePixel: Pixel()
+		outImage: con_6341e20f_22d0_4e43_9097_633bc0557574
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: con_6341e20f_22d0_4e43_9097_633bc0557574
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 1.563961
+								Y: -121.286621
+							)
+						Point2:
+							Point2D
+							(
+								X: 0.476143
+								Y: -221.395538
+							)
+					)
+				Width: 34.441124
+			)
+		inFittingFieldAlignment: inCoordinateSystemResize
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Tukey
+		outSegment: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+		outEdges.Point.X: con_2b761016_1bb1_4bdb_ab24_125997382d8e
+		outEdges.Point.Y: con_0924a53b_494b_4d36_b810_a1fa57008e31
+	)
+
+	RemoveNils<Real>
+	(
+		inArray: con_0924a53b_494b_4d36_b810_a1fa57008e31
+		outArray: con_cf05a2e8_3718_4f15_b719_713a7f27fc80
+		outElementExisted: Nil
+	)
+
+	Average
+	(
+		inValues: con_cf05a2e8_3718_4f15_b719_713a7f27fc80
+		outAverage: con_50308c78_ea91_421a_afda_c9a04bf7378b
+	)
+
+	MakePoint
+	(
+		inX: con_2b761016_1bb1_4bdb_ab24_125997382d8e
+		inY: con_50308c78_ea91_421a_afda_c9a04bf7378b
+		outPoint: con_6314beb7_c07c_4e0a_b6c3_2f1e0a841c8c
+	)
+
+	RemoveNils<Point2D>
+	(
+		inArray: con_6314beb7_c07c_4e0a_b6c3_2f1e0a841c8c
+		outArray: con_7d2dd3d5_6460_4a9b_bea2_347791220455
+		outElementExisted: Nil
+	)
+
+	//:HIDDENPORT[inVariant] TRUE
+	FitLineToPoints_TheilSen
+	(
+		inPoints: con_7d2dd3d5_6460_4a9b_bea2_347791220455
+		inVariant: TheilSen
+		outLine: con_3217b664_0c3f_4c3d_ad9d_bdb9929458ed
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanStep] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxInterpolationLength] TRUE
+	//:HIDDENPORT[inMaxDeviationDelta] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitPathToEdges
+	(
+		inImage: con_6341e20f_22d0_4e43_9097_633bc0557574
+		inFittingField: PathFittingField<IPICode.4bb64333.PathFittingField.avdata>
+		inFittingFieldAlignment: inCoordinateSystemResize
+		inScanStep: 0.500000
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams: EdgeScanParams()
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxInterpolationLength: 1
+		inMaxDeviationDelta: Nil
+		inMaxIncompleteness: 0.100000
+		outPath: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: con_4c227b94_d4e8_46d2_9b09_3699a83077c5
+	)
+
+	PointToLineDistance
+	(
+		inPoint: con_4c227b94_d4e8_46d2_9b09_3699a83077c5
+		inLine: con_3217b664_0c3f_4c3d_ad9d_bdb9929458ed
+		inResolution: inXScale
+		outDistance: con_4fb00104_518d_4ca3_9597_f5cf1562a483
+		outConnectingSegment: Nil
+	)
+
+	RemoveNils<Real>
+	(
+		inArray: con_4fb00104_518d_4ca3_9597_f5cf1562a483
+		outArray: con_a2787489_b04f_4876_b127_7d836845b559
+		outElementExisted: Nil
+	)
+
+	Average
+	(
+		inValues: con_a2787489_b04f_4876_b127_7d836845b559
+		outAverage: con_2ff32ef1_c07f_4535_bb86_bc0673b8f915
+	)
+
+	outFAI7_1 = con_2ff32ef1_c07f_4535_bb86_bc0673b8f915
+}
+
+public FAI7_2(Double inXScale, Image inImageNormResize, CoordinateSystem2D? inCoordinateSystemResize, Real? outFAI7_2) step
+{
+	AccessImage
+	(
+		inImage: inImageNormResize
+		outWidth: con_e6fb2b20_bd39_41ff_92e9_8f018d280672
+		outHeight: con_273095c9_bcbe_409c_af63_3ea840d5f477
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	//:BGIMAGE[inRectangle] @macroInput:inImageNormResize
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -261.324677
+						Y: 103.296997
+					)
+				Angle: 0.000000
+				Width: 336.014282
+				Height: 602.584656
+			)
+		inRectangleAlignment: inCoordinateSystemResize
+		inFrameWidth: con_e6fb2b20_bd39_41ff_92e9_8f018d280672
+		inFrameHeight: con_273095c9_bcbe_409c_af63_3ea840d5f477
+		outRegion: con_8177f26b_2c8e_446a_a086_80fc65dc8e86
+		outAlignedRectangle: Nil
+	)
+
+	//:HIDDENPORT[inOutsidePixel] TRUE
+	CropImageToRegion
+	(
+		inImage: inImageNormResize
+		inRegion: con_8177f26b_2c8e_446a_a086_80fc65dc8e86
+		inOutsidePixel: Pixel()
+		outImage: con_1cda366c_62e1_4bba_9fb6_24ff6db27298
+	)
+
+	//:HIDDENPORT[inThresholdParams] TRUE
+	//:HIDDENPORT[inRegionProcessingParams] TRUE
+	//:HIDDENPORT[inBlobSplittingParams] TRUE
+	ExtractBlobs_Intensity
+	(
+		inImage: con_1cda366c_62e1_4bba_9fb6_24ff6db27298
+		inRoi: Nil
+		inThresholdParams:
+			IntensityThresholdParams
+			(
+				MinIntensity: 30.000000
+				MaxIntensity: Nil
+				Hysteresis: 0.000000
+			)
+		inRegionProcessingParams: RegionProcessingParams()
+		inBlobSplittingParams: BlobSplittingParams()
+		outBlobs: con_82ef0e89_4cf1_4884_be4e_9a11dbdce6c5
+		diagBlobAreas: Nil
+		diagBaseRegion: Nil
+	)
+
+	//:HIDDENPORT[inConnectivity] TRUE
+	//:HIDDENPORT[inFeature] TRUE
+	//:HIDDENPORT[inRemoveBoundaryBlobs] TRUE
+	RemoveRegionBlobs
+	(
+		inRegion: con_82ef0e89_4cf1_4884_be4e_9a11dbdce6c5
+		inConnectivity: EightDirections
+		inFeature: Area
+		inMinimum: 1000.000000
+		inMaximum: Nil
+		inRemoveBoundaryBlobs: False
+		outRegion: con_b9d768a0_7388_413d_ad34_bfa51de55bd3
+	)
+
+	RegionUnion_OfArray
+	(
+		inArray: con_b9d768a0_7388_413d_ad34_bfa51de55bd3
+		outRegion: con_691ce6dc_4883_447b_9c9b_07e7bf67dcf1
+	)
+
+	//:HIDDENPORT[inOutsidePixel] TRUE
+	CropImageToRegion
+	(
+		inImage: con_1cda366c_62e1_4bba_9fb6_24ff6db27298
+		inRegion: con_691ce6dc_4883_447b_9c9b_07e7bf67dcf1
+		inOutsidePixel: Pixel()
+		outImage: con_5966a050_7f94_4af7_bebb_07377b091067
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: con_5966a050_7f94_4af7_bebb_07377b091067
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 3.473373
+								Y: 492.821442
+							)
+						Point2:
+							Point2D
+							(
+								X: 8.818954
+								Y: 216.247620
+							)
+					)
+				Width: 120.648018
+			)
+		inFittingFieldAlignment: inCoordinateSystemResize
+		inScanCount: 40
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+		outEdges.Point.X: con_ed131268_3731_4966_8dd2_0a8291f70471
+		outEdges.Point.Y: con_877b5417_235e_410b_8ca7_3b2559f36d37
+	)
+
+	RemoveNils<Real>
+	(
+		inArray: con_877b5417_235e_410b_8ca7_3b2559f36d37
+		outArray: con_879e9067_62d7_494a_a633_0da4d9edf3c6
+		outElementExisted: Nil
+	)
+
+	Average
+	(
+		inValues: con_879e9067_62d7_494a_a633_0da4d9edf3c6
+		outAverage: con_5dc0f34d_080b_421c_83e4_51453b2a443f
+	)
+
+	MakePoint
+	(
+		inX: con_ed131268_3731_4966_8dd2_0a8291f70471
+		inY: con_5dc0f34d_080b_421c_83e4_51453b2a443f
+		outPoint: con_94d27178_3923_49d0_a862_f7e0f2ba3dea
+	)
+
+	RemoveNils<Point2D>
+	(
+		inArray: con_94d27178_3923_49d0_a862_f7e0f2ba3dea
+		outArray: con_f9b5d130_0a2e_4207_89c3_d1cde523e8a3
+		outElementExisted: Nil
+	)
+
+	//:HIDDENPORT[inVariant] TRUE
+	FitLineToPoints_TheilSen
+	(
+		inPoints: con_f9b5d130_0a2e_4207_89c3_d1cde523e8a3
+		inVariant: TheilSen
+		outLine: con_978959db_b5f4_4542_917a_6129a18e647d
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanStep] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxInterpolationLength] TRUE
+	//:HIDDENPORT[inMaxDeviationDelta] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitPathToEdges
+	(
+		inImage: con_5966a050_7f94_4af7_bebb_07377b091067
+		inFittingField: PathFittingField<IPICode.0101fd4c.PathFittingField.avdata>
+		inFittingFieldAlignment: inCoordinateSystemResize
+		inScanStep: 0.500000
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams: EdgeScanParams()
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxInterpolationLength: 1
+		inMaxDeviationDelta: Nil
+		inMaxIncompleteness: 0.100000
+		outPath: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: con_0f594b31_29ed_4b4f_b473_171b35851fcb
+	)
+
+	PointToLineDistance
+	(
+		inPoint: con_0f594b31_29ed_4b4f_b473_171b35851fcb
+		inLine: con_978959db_b5f4_4542_917a_6129a18e647d
+		inResolution: inXScale
+		outDistance: con_927b887d_245a_4069_a282_aab7d5f0dc45
+		outConnectingSegment: Nil
+	)
+
+	RemoveNils<Real>
+	(
+		inArray: con_927b887d_245a_4069_a282_aab7d5f0dc45
+		outArray: con_3b318354_2565_4b3c_b3f8_6dac0c15da0e
+		outElementExisted: Nil
+	)
+
+	Average
+	(
+		inValues: con_3b318354_2565_4b3c_b3f8_6dac0c15da0e
+		outAverage: con_c2085295_5998_4320_a893_5c62f1462b70
+	)
+
+	outFAI7_2 = con_c2085295_5998_4320_a893_5c62f1462b70
+}
+
+public FAI8(Double inXScale, Image inImageNormResize, CoordinateSystem2D? inCoordinateSystemResize, Real? outFAI8) step
+{
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inImageNormResize
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 7.377625
+								Y: 234.924683
+							)
+						Point2:
+							Point2D
+							(
+								X: 9.976425
+								Y: 566.418152
+							)
+					)
+				Width: 132.585922
+			)
+		inFittingFieldAlignment: inCoordinateSystemResize
+		inScanCount: 50
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: BrightToDark
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Tukey
+		outSegment: con_79286c16_641f_4959_90d2_24c5161107a0
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_79286c16_641f_4959_90d2_24c5161107a0
+		outLine: con_4e126e00_f927_4617_a81a_f9cb8f0a9e7b
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanStep] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxInterpolationLength] TRUE
+	//:HIDDENPORT[inMaxDeviationDelta] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitPathToEdges
+	(
+		inImage: inImageNormResize
+		inFittingField: PathFittingField<IPICode.cbb55076.PathFittingField.avdata>
+		inFittingFieldAlignment: inCoordinateSystemResize
+		inScanStep: 0.500000
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams: EdgeScanParams()
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxInterpolationLength: 1
+		inMaxDeviationDelta: Nil
+		inMaxIncompleteness: 0.100000
+		outPath: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: con_8e1c65e4_1cc8_4cc8_aa52_d3aa065aba5a
+	)
+
+	PointToLineDistance
+	(
+		inPoint: con_8e1c65e4_1cc8_4cc8_aa52_d3aa065aba5a
+		inLine: con_4e126e00_f927_4617_a81a_f9cb8f0a9e7b
+		inResolution: inXScale
+		outDistance: con_de338ad9_83e0_4b71_97b3_aa6302b58dc6
+		outConnectingSegment: Nil
+	)
+
+	RemoveNils<Real>
+	(
+		inArray: con_de338ad9_83e0_4b71_97b3_aa6302b58dc6
+		outArray: con_bfd39f8e_3400_4db4_9bf9_2b2a838d9753
+		outElementExisted: Nil
+	)
+
+	Average
+	(
+		inValues: con_bfd39f8e_3400_4db4_9bf9_2b2a838d9753
+		outAverage: con_f2723113_91e5_4181_ad67_ec621652b2be
+	)
+
+	outFAI8 = con_f2723113_91e5_4181_ad67_ec621652b2be
+}
+
+public MainCoordinateSystemResize(Image inImageNormResize, CoordinateSystem2D? outCoordinateSystemResize) step
+{
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inImageNormResize
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 994.624573
+								Y: 863.861450
+							)
+						Point2:
+							Point2D
+							(
+								X: 1012.331360
+								Y: 1457.038940
+							)
+					)
+				Width: 441.679871
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: BrightToDark
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_a784e77b_eb6a_4dff_97b0_0bd15539d2a9
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_a784e77b_eb6a_4dff_97b0_0bd15539d2a9
+		outLine: con_dc63690d_bef3_4dbf_8c64_4b504d4d64c7
+	)
+
+	LineOrientation
+	(
+		inLine: con_dc63690d_bef3_4dbf_8c64_4b504d4d64c7
+		outOrientationAngle: con_e8d7f9fd_5191_405d_8033_ea9648703645
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inImageNormResize
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 377.262299
+								Y: 2136.440674
+							)
+						Point2:
+							Point2D
+							(
+								X: 1478.424316
+								Y: 2141.156494
+							)
+					)
+				Width: 249.980453
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 40
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Tukey
+		outSegment: con_89a8ffb9_9747_4cab_bfdd_65a555dda459
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_89a8ffb9_9747_4cab_bfdd_65a555dda459
+		outLine: con_30ce96f0_fdb7_47ae_9de7_787bb3aaf6fd
+	)
+
+	LineLineIntersection
+	(
+		inLine1: con_dc63690d_bef3_4dbf_8c64_4b504d4d64c7
+		inLine2: con_30ce96f0_fdb7_47ae_9de7_787bb3aaf6fd
+		outIntersectionPoint: con_eccfebed_a8b7_4af4_85c9_31e92d2ef2f1
+	)
+
+	MakeCoordinateSystem
+	(
+		inOrigin: con_eccfebed_a8b7_4af4_85c9_31e92d2ef2f1
+		inAngle: con_e8d7f9fd_5191_405d_8033_ea9648703645
+		inScale: 1.000000
+		outCoordinateSystem: con_d92de71b_ad6b_4688_95f3_bd47cfbcd160
+	)
+
+	outCoordinateSystemResize = con_d92de71b_ad6b_4688_95f3_bd47cfbcd160
+}
+
+public MainBottomLoader(Surface outObject) step
+{
+	//:HIDDENPORT[inExtensions] TRUE
+	//:HIDDENPORT[inSortingOrder] TRUE
+	//:HIDDENPORT[inRepeat] TRUE
+	//:HIDDENPORT[inProcessSubdirectories] TRUE
+	//:HIDDENPORT[inInvert] TRUE
+	//:HIDDENPORT[outFileName] TRUE
+	EnumerateFiles
+	(
+		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\LMI 1013\\AVData\\MainBottom"
+		inExtensions: "avdata"
+		inSortingOrder: Name
+		inRepeat: False
+		inProcessSubdirectories: False
+		inInvert: False
+		outFilePath: con_a0a0ffaf_b8ba_4555_873e_3877b79a1f26
+		outFileName: Nil
+	)
+
+	//:HIDDENPORT[inStreamMode] TRUE
+	LoadObject<Surface>
+	(
+		inFile: con_a0a0ffaf_b8ba_4555_873e_3877b79a1f26
+		inStreamMode: Binary
+		outObject: con_d69eb489_f6c9_41d1_965e_aed0701ed20a
+	)
+
+	outObject = con_d69eb489_f6c9_41d1_965e_aed0701ed20a
+}
+
+public MainBottomRef(Surface inMainBottom, Plane3D? outRefVerticalPlane, Plane3D? outRefPlane) step
+{
+	SurfaceToDepthImage
+	(
+		inObject: inMainBottom
+		outDepthImage: Nil
+		outNormImage: con_a16aefb0_4e0f_4b61_8c38_5abc6385c434
+		outImageNormResize: Nil
+	)
+
+	AccessImage
+	(
+		inImage: con_a16aefb0_4e0f_4b61_8c38_5abc6385c434
+		outWidth: con_1d5e6684_7c3a_4d66_bb5f_4cecfb8ac85a
+		outHeight: con_10c1106d_2896_47e3_8484_3547d6f4e354
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	MainCoordinateSystem
+	(
+		inNormImage: con_a16aefb0_4e0f_4b61_8c38_5abc6385c434
+		outCoordinateSystem: con_035173bd_f283_4b2c_b0a0_a59b32a3ac1b
+	)
+
+	MainBottomRefRegion
+	(
+		inRectangleAlignment: con_035173bd_f283_4b2c_b0a0_a59b32a3ac1b
+		inFrameWidth: con_1d5e6684_7c3a_4d66_bb5f_4cecfb8ac85a
+		inFrameHeight: con_10c1106d_2896_47e3_8484_3547d6f4e354
+		outRegion: con_080e5ec6_36e0_45b5_9179_9b3a407a014d
+	)
+
+	FitPlaneToSurface
+	(
+		inSurface: inMainBottom
+		inRoi: con_080e5ec6_36e0_45b5_9179_9b3a407a014d
+		outPlane: con_c8e1d1a1_6222_4aa0_ab06_6eb2b2976952
+		outDistances: Nil
+		outSignedDistanceSum: Nil
+		outDistanceSum: Nil
+		outSquaredDistances: Nil
+		outSquaredDistanceSum: Nil
+	)
+
+	//:HIDDENPORT[inPreserveDimensions] TRUE
+	CropSurfaceByPlaneProximity
+	(
+		inSurface: inMainBottom
+		inRoi: Nil
+		inPlane: con_c8e1d1a1_6222_4aa0_ab06_6eb2b2976952
+		inMinDistance: Nil
+		inMaxDistance: 0.100000
+		inPreserveDimensions: False
+		outSurface: con_9e4ce8ee_b86e_4122_937a_019ef2c25fba
+		outRejected: Nil
+	)
+
+	ConvertCoordinateSystem2DTo3D
+	(
+		inCoordinateSystem: con_035173bd_f283_4b2c_b0a0_a59b32a3ac1b
+		inSurfaceFormat: con_9e4ce8ee_b86e_4122_937a_019ef2c25fba
+		outCoordinateSystem: con_faa859e3_76cc_4ec0_81d2_e1e618f63a9f
+	)
+
+	//:BGIMAGE[inFittingField] @input:inSurface
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inSurfaceInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxProfileGapWidth] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges3D
+	(
+		inSurface: con_9e4ce8ee_b86e_4122_937a_019ef2c25fba
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: -14.299965
+								Y: 1.022298
+							)
+						Point2:
+							Point2D
+							(
+								X: -1.819456
+								Y: 0.889894
+							)
+					)
+				Width: 3.584222
+			)
+		inFittingFieldAlignment: con_faa859e3_76cc_4ec0_81d2_e1e618f63a9f
+		inScanCount: 40
+		inScanWidth: 5
+		inSurfaceInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams3D
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 0.000000
+				EdgeTransition: HighToLow
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxProfileGapWidth: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_775633af_0383_49c9_ae94_42d2511e9ee1
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagHeightProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	Segment3DLine
+	(
+		inSegment3D: con_775633af_0383_49c9_ae94_42d2511e9ee1
+		outLine3D: con_0fd2ace5_04a1_4d0e_a608_cc7178c2b214
+	)
+
+	Plane3DNormalVector
+	(
+		inPlane: con_c8e1d1a1_6222_4aa0_ab06_6eb2b2976952
+		outNormalVector: con_5f9f5f7d_03a0_4423_ae61_b734f94df69e
+	)
+
+	ProjectPointOnLine3D
+	(
+		inPoint3D: Point3D()
+		inLine3D: con_0fd2ace5_04a1_4d0e_a608_cc7178c2b214
+		outPointOnLine3D: con_4e490858_4f94_41a4_bd0c_191cfa1f816d
+	)
+
+	ProjectPointOnLine3D
+	(
+		inPoint3D:
+			Point3D
+			(
+				X: 0.000000
+				Y: 1.000000
+				Z: 0.000000
+			)
+		inLine3D: con_0fd2ace5_04a1_4d0e_a608_cc7178c2b214
+		outPointOnLine3D: con_8ef0e542_4e20_49c5_99c4_88831c60d795
+	)
+
+	CreateSegment3D
+	(
+		inPoint3D: con_4e490858_4f94_41a4_bd0c_191cfa1f816d
+		inPointAnchor: 0.000000
+		inDirectionVector: con_5f9f5f7d_03a0_4423_ae61_b734f94df69e
+		inLength: 4.000000
+		outSegment3D: con_5c6fc6a9_4792_4e73_aeed_49373da4b1ba
+	)
+
+	Segment3DLine
+	(
+		inSegment3D: con_5c6fc6a9_4792_4e73_aeed_49373da4b1ba
+		outLine3D: con_6e7876db_eaf9_4b02_aeeb_84ff9cd12f71
+	)
+
+	PlaneThroughLineAndPoint3D
+	(
+		inLine3D: con_6e7876db_eaf9_4b02_aeeb_84ff9cd12f71
+		inPoint3D: con_8ef0e542_4e20_49c5_99c4_88831c60d795
+		outPlane: con_5c495c5e_4685_45ea_a341_7b10af8754f3
+	)
+
+	outRefVerticalPlane = con_5c495c5e_4685_45ea_a341_7b10af8754f3
+
+	outRefPlane = con_c8e1d1a1_6222_4aa0_ab06_6eb2b2976952
+}
+
+public MainCoordinateSystem(Image inNormImage, CoordinateSystem2D? outCoordinateSystem) step
+{
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 298.746185
+								Y: 298.694519
+							)
+						Point2:
+							Point2D
+							(
+								X: 307.734558
+								Y: 559.357117
+							)
+					)
+				Width: 88.762848
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_53ff5abc_0522_405c_8720_fc0a82395e8b
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_53ff5abc_0522_405c_8720_fc0a82395e8b
+		outLine: con_71e4b542_09b2_4d6f_a23e_72d9d243927f
+	)
+
+	LineOrientation
+	(
+		inLine: con_71e4b542_09b2_4d6f_a23e_72d9d243927f
+		outOrientationAngle: con_8ebd861c_bf79_4672_9a90_7da25a5f2309
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 447.318054
+								Y: 580.396606
+							)
+						Point2:
+							Point2D
+							(
+								X: 319.422424
+								Y: 582.475708
+							)
+					)
+				Width: 263.209137
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 50
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Tukey
+		outSegment: con_76b0a0ec_84c4_4554_9c75_adca49fec832
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_76b0a0ec_84c4_4554_9c75_adca49fec832
+		outLine: con_fd67ec66_b6c4_497d_98d1_86341159da3d
+	)
+
+	LineLineIntersection
+	(
+		inLine1: con_71e4b542_09b2_4d6f_a23e_72d9d243927f
+		inLine2: con_fd67ec66_b6c4_497d_98d1_86341159da3d
+		outIntersectionPoint: con_5c098621_5b5d_47c2_af2d_5a4632fa82c3
+	)
+
+	MakeCoordinateSystem
+	(
+		inOrigin: con_5c098621_5b5d_47c2_af2d_5a4632fa82c3
+		inAngle: con_8ebd861c_bf79_4672_9a90_7da25a5f2309
+		inScale: 1.000000
+		outCoordinateSystem: con_e6c857e8_da7f_4023_b9bd_80b6cfcaefe0
+	)
+
+	outCoordinateSystem = con_e6c857e8_da7f_4023_b9bd_80b6cfcaefe0
+}
+
+public MainBottomRefRegion(CoordinateSystem2D inRectangleAlignment, Integer inFrameWidth, Integer inFrameHeight, Region outRegion) step
+{
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -361.138458
+						Y: 24.746048
+					)
+				Angle: 0.000000
+				Width: 100.040100
+				Height: 34.629738
+			)
+		inRectangleAlignment: inRectangleAlignment
+		inFrameWidth: inFrameWidth
+		inFrameHeight: inFrameHeight
+		outRegion: con_5e88ffa0_cddf_427c_9d0e_91f3a8168442
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -209.118439
+						Y: 27.905991
+					)
+				Angle: 0.000000
+				Width: 160.081818
+				Height: 30.518295
+			)
+		inRectangleAlignment: inRectangleAlignment
+		inFrameWidth: inFrameWidth
+		inFrameHeight: inFrameHeight
+		outRegion: con_086d1ea6_8631_45f1_a316_1cf257301424
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -56.019585
+						Y: -202.711975
+					)
+				Angle: 0.000000
+				Width: 137.107483
+				Height: 26.278015
+			)
+		inRectangleAlignment: inRectangleAlignment
+		inFrameWidth: inFrameWidth
+		inFrameHeight: inFrameHeight
+		outRegion: con_cbce9836_0c04_4cec_a1ac_36bc96887758
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -398.023743
+						Y: -194.578857
+					)
+				Angle: 0.000000
+				Width: 57.962311
+				Height: 18.138535
+			)
+		inRectangleAlignment: inRectangleAlignment
+		inFrameWidth: inFrameWidth
+		inFrameHeight: inFrameHeight
+		outRegion: con_5c4695f8_df26_495e_821a_35924c80fdd9
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -20.650146
+						Y: 19.411057
+					)
+				Angle: 0.000000
+				Width: 120.817612
+				Height: 24.214630
+			)
+		inRectangleAlignment: inRectangleAlignment
+		inFrameWidth: inFrameWidth
+		inFrameHeight: inFrameHeight
+		outRegion: con_1b4e3df3_f855_43a1_963a_ce3a981a09f9
+		outAlignedRectangle: Nil
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_5e88ffa0_cddf_427c_9d0e_91f3a8168442
+		inRegion2: con_086d1ea6_8631_45f1_a316_1cf257301424
+		outRegion: con_adccb100_4ba7_4c20_8eac_5549fb7270cd
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_cbce9836_0c04_4cec_a1ac_36bc96887758
+		inRegion2: con_5c4695f8_df26_495e_821a_35924c80fdd9
+		outRegion: con_6fbb38c9_c157_4a79_a4a0_438b15ec1761
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_adccb100_4ba7_4c20_8eac_5549fb7270cd
+		inRegion2: con_6fbb38c9_c157_4a79_a4a0_438b15ec1761
+		outRegion: con_95fcb8e1_ddc7_4e29_9d3a_f242aed42a13
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_95fcb8e1_ddc7_4e29_9d3a_f242aed42a13
+		inRegion2: con_1b4e3df3_f855_43a1_963a_ce3a981a09f9
+		outRegion: con_a36c4459_311b_489d_ac08_bc77707f862f
+	)
+
+	outRegion = con_a36c4459_311b_489d_ac08_bc77707f862f
+}
+
+public FlatnessCalc(Plane3D? inRefVerticalPlane, Point3DArray inPoints, Real? outDistMax) step
+{
+	PointToPlaneDistance3D
+	(
+		inPoint3D: inPoints
+		inPlane: inRefVerticalPlane
+		inResolution: 1.000000
+		outDistance: con_59253ca8_47dd_4fab_828d_a9fdadaf4a1e
+		outConnectingSegment3D: Nil
+	)
+
+	RemoveNils<Real>
+	(
+		inArray: con_59253ca8_47dd_4fab_828d_a9fdadaf4a1e
+		outArray: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
+		outElementExisted: Nil
+	)
+
+	GetMaximumElement<Real?>
+	(
+		inArray: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
+		inValues: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
+		outElement: Nil
+		outValue: con_fb126792_bdef_4bd4_a76b_8de301140e3f
+		outIndex: Nil
+	)
+
+	outDistMax = con_fb126792_bdef_4bd4_a76b_8de301140e3f
+}
+
+public SubBattery(Surface inObject, Surface? outSubCalcSurface) step
+{
+	AccessSurface
+	(
+		inSurface: inObject
+		outWidth: Nil
+		outHeight: Nil
+		outPointType: Nil
+		outPointByteSize: Nil
+		outPitch: Nil
+		outXOffset: Nil
+		outXScale: Nil
+		outYOffset: Nil
+		outYScale: Nil
+		outZOffset: Nil
+		outZScale: Nil
+	)
+
+	SurfaceToDepthImage
+	(
+		inObject: inObject
+		outDepthImage: Nil
+		outNormImage: con_ff365d79_9ea9_41e8_925e_49a2f10551a3
+		outImageNormResize: Nil
+	)
+
+	SubCoordinateSystemNoResize
+	(
+		inNormImage: con_ff365d79_9ea9_41e8_925e_49a2f10551a3
+		outCoordinateSystem: con_6a2ef556_f83a_4168_b2e4_baa37e8c0d8a
+	)
+
+	SubSurfaceValue
+	(
+		inCoordinateSystem: con_6a2ef556_f83a_4168_b2e4_baa37e8c0d8a
+		inObject: inObject
+		inNormImage: con_ff365d79_9ea9_41e8_925e_49a2f10551a3
+		outSubCalcSurface: con_79e734ee_c754_4f46_99ea_512731eb4071
+	)
+
+	outSubCalcSurface = con_79e734ee_c754_4f46_99ea_512731eb4071
+}
+
+public SubCoordinateSystemNoResize(Image inNormImage, CoordinateSystem2D? outCoordinateSystem) step
+{
+	AccessImage
+	(
+		inImage: inNormImage
+		outWidth: Nil
+		outHeight: Nil
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 826.844299
+								Y: 289.011169
+							)
+						Point2:
+							Point2D
+							(
+								X: 810.269287
+								Y: 539.709656
+							)
+					)
+				Width: 295.417999
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: BrightToDark
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_18f13096_2476_48ec_9d84_8f9f52824544
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_18f13096_2476_48ec_9d84_8f9f52824544
+		outLine: con_d67238dd_498f_406f_952e_bbaba8e8acd9
+	)
+
+	LineOrientation
+	(
+		inLine: con_d67238dd_498f_406f_952e_bbaba8e8acd9
+		outOrientationAngle: con_60bf4bca_bfcc_460a_af1b_a652cb7ef36d
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 785.782104
+								Y: 11.861900
+							)
+						Point2:
+							Point2D
+							(
+								X: 119.011078
+								Y: 19.396034
+							)
+					)
+				Width: 112.004601
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_c5339808_2a6f_4abc_a567_60db669a4d47
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_c5339808_2a6f_4abc_a567_60db669a4d47
+		outLine: con_95cc254f_df89_42fd_8631_41f9db1f440b
+	)
+
+	LineLineIntersection
+	(
+		inLine1: con_d67238dd_498f_406f_952e_bbaba8e8acd9
+		inLine2: con_95cc254f_df89_42fd_8631_41f9db1f440b
+		outIntersectionPoint: con_025ba0aa_a019_4429_9e75_ebec54892389
+	)
+
+	MakeCoordinateSystem
+	(
+		inOrigin: con_025ba0aa_a019_4429_9e75_ebec54892389
+		inAngle: con_60bf4bca_bfcc_460a_af1b_a652cb7ef36d
+		inScale: 1.000000
+		outCoordinateSystem: con_586b9eb4_9e34_47c5_85db_8482ff14ce22
+	)
+
+	outCoordinateSystem = con_586b9eb4_9e34_47c5_85db_8482ff14ce22
+}
+
+public SubSurfaceValue(CoordinateSystem2D? inCoordinateSystem, Surface inObject, Image inNormImage, Surface? outSubCalcSurface) step
+{
+	AccessImage
+	(
+		inImage: inNormImage
+		outWidth: con_244be735_4a1c_46e3_b23e_f884152f665d
+		outHeight: con_43039acb_a6fc_4dbb_b834_fab12dc103eb
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: 235.653122
+						Y: 142.484863
+					)
+				Angle: 0.000000
+				Width: 393.088562
+				Height: 280.778412
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: con_244be735_4a1c_46e3_b23e_f884152f665d
+		inFrameHeight: con_43039acb_a6fc_4dbb_b834_fab12dc103eb
+		outRegion: con_b81bae20_3e19_40ca_9a66_9ee6120fcc09
+		outAlignedRectangle: Nil
+	)
+
+	//:HIDDENPORT[inPreserveDimensions] TRUE
+	CropSurface
+	(
+		inSurface: inObject
+		inRoi: con_b81bae20_3e19_40ca_9a66_9ee6120fcc09
+		inMinX: Nil
+		inMaxX: Nil
+		inMinY: Nil
+		inMaxY: Nil
+		inMinZ: Nil
+		inMaxZ: Nil
+		inPreserveDimensions: False
+		outSurface: con_242d54de_55ed_4ffb_a624_933554cd019d
+		outRejected: Nil
+	)
+
+	outSubCalcSurface = con_242d54de_55ed_4ffb_a624_933554cd019d
+}
+
+public SubBottomRef(Surface inObject, Plane3D? outBottomRefVerticalPlane, Plane3D? outRefPlane) step
+{
+	SurfaceToDepthImage
+	(
+		inObject: inObject
+		outDepthImage: Nil
+		outNormImage: con_3f2bb57b_dfd8_49c7_86f4_b84c82e52324
+		outImageNormResize: Nil
+	)
+
+	AccessImage
+	(
+		inImage: con_3f2bb57b_dfd8_49c7_86f4_b84c82e52324
+		outWidth: con_08e359d2_49f7_479e_a4da_803aa473d002
+		outHeight: con_17265dd3_1df6_4a64_bb1e_25104ee0157e
+		outDepth: Nil
+		outType: Nil
+		outPixelSize: Nil
+		outPitch: Nil
+	)
+
+	SubCoordinateSystem
+	(
+		inNormImage: con_3f2bb57b_dfd8_49c7_86f4_b84c82e52324
+		outCoordinateSystem: con_575f72b0_3b1e_4b84_9b02_25b5c893154d
+	)
+
+	SubRefPlaneRegion
+	(
+		inNormImage: con_3f2bb57b_dfd8_49c7_86f4_b84c82e52324
+		inCoordinateSystem: con_575f72b0_3b1e_4b84_9b02_25b5c893154d
+		inWidth: con_08e359d2_49f7_479e_a4da_803aa473d002
+		inHeight: con_17265dd3_1df6_4a64_bb1e_25104ee0157e
+		outBottomRefRegion: con_1c56d111_38aa_4b7d_8048_acad723221bb
+	)
+
+	FitPlaneToSurface
+	(
+		inSurface: inObject
+		inRoi: con_1c56d111_38aa_4b7d_8048_acad723221bb
+		outPlane: con_259a3c43_f54a_42d1_8104_448b68b92d5f
+		outDistances: Nil
+		outSignedDistanceSum: Nil
+		outDistanceSum: Nil
+		outSquaredDistances: Nil
+		outSquaredDistanceSum: Nil
+	)
+
+	//:HIDDENPORT[inPreserveDimensions] TRUE
+	CropSurfaceByPlaneProximity
+	(
+		inSurface: inObject
+		inRoi: Nil
+		inPlane: con_259a3c43_f54a_42d1_8104_448b68b92d5f
+		inMinDistance: Nil
+		inMaxDistance: 0.100000
+		inPreserveDimensions: False
+		outSurface: con_5d417d93_356f_4889_b543_fdc056d649a9
+		outRejected: Nil
+	)
+
+	ConvertCoordinateSystem2DTo3D
+	(
+		inCoordinateSystem: CoordinateSystem2D()
+		inSurfaceFormat: con_5d417d93_356f_4889_b543_fdc056d649a9
+		outCoordinateSystem: con_dd6e5001_1ca8_46f6_9635_726071a56a9c
+	)
+
+	//:BGIMAGE[inFittingField] @input:inSurface
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inSurfaceInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxProfileGapWidth] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges3D
+	(
+		inSurface: con_5d417d93_356f_4889_b543_fdc056d649a9
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 7.253130
+								Y: 28.100883
+							)
+						Point2:
+							Point2D
+							(
+								X: 7.414261
+								Y: 20.084589
+							)
+					)
+				Width: 2.931343
+			)
+		inFittingFieldAlignment: con_dd6e5001_1ca8_46f6_9635_726071a56a9c
+		inScanCount: 40
+		inScanWidth: 5
+		inSurfaceInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams3D
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 0.000000
+				EdgeTransition: HighToLow
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxProfileGapWidth: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagHeightProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: con_776dcf7f_0a7d_48f7_85bc_932f3c20cbcc
+	)
+
+	//:BGIMAGE[inFittingField] @input:inSurface
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inSurfaceInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxProfileGapWidth] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges3D
+	(
+		inSurface: con_5d417d93_356f_4889_b543_fdc056d649a9
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 7.437120
+								Y: 10.670979
+							)
+						Point2:
+							Point2D
+							(
+								X: 7.309606
+								Y: 7.229415
+							)
+					)
+				Width: 2.931343
+			)
+		inFittingFieldAlignment: con_dd6e5001_1ca8_46f6_9635_726071a56a9c
+		inScanCount: 40
+		inScanWidth: 5
+		inSurfaceInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams3D
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 0.000000
+				EdgeTransition: HighToLow
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxProfileGapWidth: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: Nil
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagHeightProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: con_a3e8c751_1cb9_485c_af9b_caa05736fe7e
+	)
+
+	//:HIDDENPORT[inArray3] TRUE
+	//:HIDDENPORT[inArray4] TRUE
+	ArrayUnion<Point3D?>
+	(
+		inArray1: con_776dcf7f_0a7d_48f7_85bc_932f3c20cbcc
+		inArray2: con_a3e8c751_1cb9_485c_af9b_caa05736fe7e
+		inArray3: Nil
+		inArray4: Nil
+		outArray: con_bf4f9007_d5a1_40d7_8f5f_e74c79b8d15a
+	)
+
+	RemoveNils<Point3D>
+	(
+		inArray: con_bf4f9007_d5a1_40d7_8f5f_e74c79b8d15a
+		outArray: con_32b8ddc5_bf84_487f_8406_9ba3b6b7dd73
+		outElementExisted: Nil
+	)
+
+	FitLineToPoints3D
+	(
+		inPoints: con_32b8ddc5_bf84_487f_8406_9ba3b6b7dd73
+		outLine: con_02f0f8c8_8a1d_4488_a581_6d87084cb4d4
+		outError: Nil
+	)
+
+	Plane3DNormalVector
+	(
+		inPlane: con_259a3c43_f54a_42d1_8104_448b68b92d5f
+		outNormalVector: con_f5eb1ff6_745e_4b37_ab9a_8e6487b9042f
+	)
+
+	ProjectPointOnLine3D
+	(
+		inPoint3D: Point3D()
+		inLine3D: con_02f0f8c8_8a1d_4488_a581_6d87084cb4d4
+		outPointOnLine3D: con_8c67c7fe_a434_49ea_b973_00843df11127
+	)
+
+	ProjectPointOnLine3D
+	(
+		inPoint3D:
+			Point3D
+			(
+				X: 0.000000
+				Y: 1.000000
+				Z: 0.000000
+			)
+		inLine3D: con_02f0f8c8_8a1d_4488_a581_6d87084cb4d4
+		outPointOnLine3D: con_70a66665_86f9_4ac1_a062_db03d164df5a
+	)
+
+	CreateSegment3D
+	(
+		inPoint3D: con_8c67c7fe_a434_49ea_b973_00843df11127
+		inPointAnchor: 0.000000
+		inDirectionVector: con_f5eb1ff6_745e_4b37_ab9a_8e6487b9042f
+		inLength: 4.000000
+		outSegment3D: con_34ca304c_16e8_49c5_a884_094a40d02170
+	)
+
+	Segment3DLine
+	(
+		inSegment3D: con_34ca304c_16e8_49c5_a884_094a40d02170
+		outLine3D: con_898e4103_41f4_455e_baae_813a240aac47
+	)
+
+	PlaneThroughLineAndPoint3D
+	(
+		inLine3D: con_898e4103_41f4_455e_baae_813a240aac47
+		inPoint3D: con_70a66665_86f9_4ac1_a062_db03d164df5a
+		outPlane: con_f1a9e267_480b_4dab_837a_73053695080d
+	)
+
+	outBottomRefVerticalPlane = con_f1a9e267_480b_4dab_837a_73053695080d
+
+	outRefPlane = con_259a3c43_f54a_42d1_8104_448b68b92d5f
+}
+
+public SubBottomLoader(Surface outObject) step
+{
+	//:HIDDENPORT[inExtensions] TRUE
+	//:HIDDENPORT[inSortingOrder] TRUE
+	//:HIDDENPORT[inRepeat] TRUE
+	//:HIDDENPORT[inProcessSubdirectories] TRUE
+	//:HIDDENPORT[inInvert] TRUE
+	//:HIDDENPORT[outFileName] TRUE
+	EnumerateFiles
+	(
+		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\LMI 1013\\AVData\\SubBottom"
+		inExtensions: "avdata"
+		inSortingOrder: Name
+		inRepeat: False
+		inProcessSubdirectories: False
+		inInvert: False
+		outFilePath: con_1d94db31_6760_47e8_9904_9a42977fde15
+		outFileName: Nil
+	)
+
+	//:HIDDENPORT[inStreamMode] TRUE
+	LoadObject<Surface>
+	(
+		inFile: con_1d94db31_6760_47e8_9904_9a42977fde15
+		inStreamMode: Binary
+		outObject: con_4e6a45ba_8f55_43f7_be2d_bb56bf28e182
+	)
+
+	outObject = con_4e6a45ba_8f55_43f7_be2d_bb56bf28e182
+}
+
+public SubCoordinateSystem(Image inNormImage, CoordinateSystem2D? outCoordinateSystem) step
+{
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 311.175812
+								Y: 273.835266
+							)
+						Point2:
+							Point2D
+							(
+								X: 312.186188
+								Y: 537.382080
+							)
+					)
+				Width: 88.762848
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 30
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Nil
+		outSegment: con_1553bdf5_8bc6_404c_9bc5_c9b8ab955687
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_1553bdf5_8bc6_404c_9bc5_c9b8ab955687
+		outLine: con_f99d155d_8dff_4f24_9518_e78c20f1c674
+	)
+
+	LineOrientation
+	(
+		inLine: con_f99d155d_8dff_4f24_9518_e78c20f1c674
+		outOrientationAngle: con_3c689b9f_9ddf_4829_abe3_8c59ae42acd2
+	)
+
+	//:BGIMAGE[inFittingField] @input:inImage
+	//:COORDINATESYSTEM[inFittingField] @input:inFittingFieldAlignment
+	//:HIDDENPORT[inFittingField] TRUE
+	//:HIDDENPORT[inScanCount] TRUE
+	//:HIDDENPORT[inScanWidth] TRUE
+	//:HIDDENPORT[inImageInterpolation] TRUE
+	//:HIDDENPORT[inEdgeScanParams] TRUE
+	//:HIDDENPORT[inEdgeSelection] TRUE
+	//:HIDDENPORT[inLocalBlindness] TRUE
+	//:HIDDENPORT[inMaxIncompleteness] TRUE
+	//:HIDDENPORT[inOutlierSuppression] TRUE
+	//:HIDDENPORT[outEdges] TRUE
+	//:HIDDENPORT[outDeviationProfile] TRUE
+	//:HIDDENPORT[outAlignedFittingField] TRUE
+	//:HIDDENPORT[diagSamplingAreas] TRUE
+	FitSegmentToEdges
+	(
+		inImage: inNormImage
+		inFittingField:
+			SegmentFittingField
+			(
+				Axis:
+					Segment2D
+					(
+						Point1:
+							Point2D
+							(
+								X: 447.318054
+								Y: 580.396606
+							)
+						Point2:
+							Point2D
+							(
+								X: 319.422424
+								Y: 582.475708
+							)
+					)
+				Width: 263.209137
+			)
+		inFittingFieldAlignment: Nil
+		inScanCount: 50
+		inScanWidth: 5
+		inImageInterpolation: Bilinear
+		inEdgeScanParams:
+			EdgeScanParams
+			(
+				ProfileInterpolation: Quadratic4
+				SmoothingStdDev: 1.000000
+				MinMagnitude: 5.000000
+				EdgeTransition: DarkToBright
+			)
+		inEdgeSelection: Best
+		inLocalBlindness: Nil
+		inMaxIncompleteness: 0.100000
+		inOutlierSuppression: Tukey
+		outSegment: con_abf4c511_83a4_4e38_a45c_008ec76ea934
+		outEdges: Nil
+		outDeviationProfile: Nil
+		outAlignedFittingField: Nil
+		diagScanSegments: Nil
+		diagSamplingAreas: Nil
+		diagBrightnessProfiles: Nil
+		diagResponseProfiles: Nil
+		outEdges.Point: Nil
+	)
+
+	SegmentLine
+	(
+		inSegment: con_abf4c511_83a4_4e38_a45c_008ec76ea934
+		outLine: con_de5557bc_2316_4cc6_97fc_6bad64011166
+	)
+
+	LineLineIntersection
+	(
+		inLine1: con_f99d155d_8dff_4f24_9518_e78c20f1c674
+		inLine2: con_de5557bc_2316_4cc6_97fc_6bad64011166
+		outIntersectionPoint: con_4381c2e9_7460_445f_aa64_ee846d88bd44
+	)
+
+	MakeCoordinateSystem
+	(
+		inOrigin: con_4381c2e9_7460_445f_aa64_ee846d88bd44
+		inAngle: con_3c689b9f_9ddf_4829_abe3_8c59ae42acd2
+		inScale: 1.000000
+		outCoordinateSystem: con_ef71dbaa_10b5_458f_bc9a_9584f4ff3901
+	)
+
+	outCoordinateSystem = con_ef71dbaa_10b5_458f_bc9a_9584f4ff3901
+}
+
+public SubRefPlaneRegion(Image inNormImage, CoordinateSystem2D? inCoordinateSystem, Integer inWidth, Integer inHeight, Region? outBottomRefRegion) step
+{
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -361.138458
+						Y: 24.746048
+					)
+				Angle: 0.000000
+				Width: 100.040100
+				Height: 34.629738
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: inWidth
+		inFrameHeight: inHeight
+		outRegion: con_0e5a23eb_990f_4115_a040_31c6fadd21fd
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -209.118439
+						Y: 27.905991
+					)
+				Angle: 0.000000
+				Width: 160.081818
+				Height: 30.518295
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: inWidth
+		inFrameHeight: inHeight
+		outRegion: con_fa925e81_8091_4940_8bd4_7c88f4e8d3da
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -56.019585
+						Y: -202.711975
+					)
+				Angle: 0.000000
+				Width: 137.107483
+				Height: 26.278015
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: inWidth
+		inFrameHeight: inHeight
+		outRegion: con_873d5515_ea87_4ab6_afdf_ea2138ddecde
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -398.023743
+						Y: -194.578857
+					)
+				Angle: 0.000000
+				Width: 57.962311
+				Height: 18.138535
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: inWidth
+		inFrameHeight: inHeight
+		outRegion: con_4b01cd7c_96ae_4b49_a823_af024e384352
+		outAlignedRectangle: Nil
+	)
+
+	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
+	CreateRectangleRegion
+	(
+		inRectangle:
+			Rectangle2D
+			(
+				Origin:
+					Point2D
+					(
+						X: -20.650146
+						Y: 19.411057
+					)
+				Angle: 0.000000
+				Width: 120.817612
+				Height: 24.214630
+			)
+		inRectangleAlignment: inCoordinateSystem
+		inFrameWidth: inWidth
+		inFrameHeight: inHeight
+		outRegion: con_15f5d020_53ab_4618_bb80_db74ba68d20e
+		outAlignedRectangle: Nil
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_0e5a23eb_990f_4115_a040_31c6fadd21fd
+		inRegion2: con_fa925e81_8091_4940_8bd4_7c88f4e8d3da
+		outRegion: con_c40d7a7f_cb4f_4c63_af94_60fb4ff8d724
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_873d5515_ea87_4ab6_afdf_ea2138ddecde
+		inRegion2: con_4b01cd7c_96ae_4b49_a823_af024e384352
+		outRegion: con_03998574_14a1_4381_8f22_858b3803c392
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_c40d7a7f_cb4f_4c63_af94_60fb4ff8d724
+		inRegion2: con_03998574_14a1_4381_8f22_858b3803c392
+		outRegion: con_113e559a_0e03_44b2_92b4_6b7f09fa30fb
+	)
+
+	RegionUnion
+	(
+		inRegion1: con_113e559a_0e03_44b2_92b4_6b7f09fa30fb
+		inRegion2: con_15f5d020_53ab_4618_bb80_db74ba68d20e
+		outRegion: con_71732b0a_be32_4528_8a88_cfaf0456dcd8
+	)
+
+	outBottomRefRegion = con_71732b0a_be32_4528_8a88_cfaf0456dcd8
+}
+
+public SavePlane(File inFile, Plane3D inPlane) step
+{
+	//:HIDDENPORT[inStreamMode] TRUE
+	//:HIDDENPORT[inIgnoreErrors] TRUE
+	SaveObject<Plane3D>
+	(
+		inObject: inPlane
+		inFile: inFile
+		inStreamMode: Binary
+		inIgnoreErrors: False
+	)
+}
+
+public SavePoints(Point3DArray inPoints, File inFile) step
+{
+	//:HIDDENPORT[inStreamMode] TRUE
+	//:HIDDENPORT[inIgnoreErrors] TRUE
+	SaveObject<Point3D?Array>
+	(
+		inObject: inPoints
+		inFile: inFile
+		inStreamMode: Binary
+		inIgnoreErrors: False
+	)
+}
+

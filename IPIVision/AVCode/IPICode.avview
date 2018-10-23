@@ -1,0 +1,19 @@
+﻿<Documents>
+  <VSplit>
+    <Views Width="0.498" Height="0.998">
+      <View Type="View3D">
+        <Output Name="con_9a433205_8067_4806_8a0c_35cf61631839" Macro="Main" Start="Main" Instance="0" />
+        <Output Name="con_08870f25_a7ed_4f38_8a68_47ae4d5a1b52" Macro="Main" Start="Main" Instance="0" />
+        <Input Name="inObject" Index="7" Macro="Main" Start="Main" Instance="0" />
+        <Input Name="inObject" Index="8" Macro="Main" Start="Main" Instance="0" />
+        <ViewState>
+          <View Yaw="0.0518" Pitch="0.0486" Dist="71.5483" CenterX="-3.2060" CenterY="1.7356" CenterZ="-2.1781" />
+          <Config ShowInfo="True" ShowBBox="False" Probe="False" GridMode="XY" Orientation="RHZUp" ProjectionMode="Perspective" ColoringMode="ZAxis" PointSize="1.1278" />
+        </ViewState>
+      </View>
+    </Views>
+    <Views Width="0.496" Height="0.998">
+      <View />
+    </Views>
+  </VSplit>
+</Documents>

@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IPIVision"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Background="White"
+        FontSize="18"
+        WindowStartupLocation="CenterScreen"
+        Title="IPI-Vision" Height="508.608" Width="809.768">
+    <Grid
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+            <Button  Content="LoadMData"  Click="ButtonLoadM_Click" Height="40"></Button>
+            <Button Content="LoadSData"  Click="ButtonLoadS_Click" Height="40"></Button>
+            <Button Content="Calc"  Click="ButtonCalc_Click" Height="40"></Button>
+            <Button Content="Recheck"  Click="ButtonRecheck_Click" Height="40"></Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Label Content="Calc Top"/>
+            <Button Content="Load TopSurface" Click="ButtonLoadTop_Click" Height="40" Margin="5"/>
+            <Button Content="Load Bottom"  Click="ButtonLoadTopRef_Click" Height="40" Margin="5"/>
+            <Button Content="Run" Click="ButtonTopRun_Click" Height="40" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="Calc Bottom"/>
+            <Button Content="Load BottomSurface"  Click="ButtonLoadBtm_Click" Height="40" Margin="5"/>
+            <Button Content="Load Bottom" Height="40" Click="ButtonLoadBtmRef_Click" Margin="5"/>
+            <Button Content="Run" Height="40" Click="ButtonBtmRun_Click" Margin="5"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                      VerticalScrollBarVisibility="Auto"
+                      >
+            <TextBlock 
+            Background="AliceBlue"
+            x:Name="MsgBox"
+            />
+        </ScrollViewer>
+
+
+
+
     </Grid>
 </Window>

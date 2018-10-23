@@ -1,0 +1,24 @@
+﻿<AdaptiveVisionProject Name="IPICode" Version="4.10.5" Revision="63729" StartUpProgramName="Main">
+  <MacroRunnerLibSettings>
+    <DllPath>IPICodeMacrofilters.dll</DllPath>
+    <Namespace>AdaptiveVision</Namespace>
+    <Class>IPICodeMacrofilters</Class>
+    <Macrofilters>
+      <Macro>FlatnessCalc</Macro>
+      <Macro>MainBattery</Macro>
+      <Macro>MainBottomRef</Macro>
+      <Macro>SavePlane</Macro>
+      <Macro>SavePoints</Macro>
+      <Macro>SubBattery</Macro>
+      <Macro>SubBottomRef</Macro>
+      <Macro>SurfaceToDepthImage</Macro>
+    </Macrofilters>
+    <UserTypes />
+    <ApplicationName>IPICodeApplication</ApplicationName>
+    <MsBuildPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe</MsBuildPath>
+  </MacroRunnerLibSettings>
+  <Files>
+    <Program Path="IPICode.avcode" />
+    <View Path="IPICode.avview" />
+  </Files>
+</AdaptiveVisionProject>

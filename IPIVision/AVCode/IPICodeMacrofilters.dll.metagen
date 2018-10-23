@@ -1,0 +1,44 @@
+  amrlibrary.dll - Embedded, ContainedInManifestFile, 
+  mri.dll - Embedded, ContainedInManifestFile, 
+  fp.common.commonobjects.dll - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v4.0.30319
+Assembly IPICodeMacrofilters, Version=4.10.*, Culture=固定语言(固定国家/地区): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly mri, Version=4.10.5.63729, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
+	hash=None, flags=None
+Assembly AmrLibrary, Version=4.10.0.0, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
+	hash=None, flags=None
+Assembly Avl.Net.TS, Version=4.10.5.63729, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Class AdaptiveVision.IPICodeMacrofilters: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Interfaces:
+    System.IDisposable
+  Properties:
+    Boolean DiagnosticMode 'get set' : 
+  Methods:
+    Create(String): PrivateScope, Public, Static, HideBySig
+    Exit(): PrivateScope, Public, HideBySig
+    get_DiagnosticMode(): PrivateScope, Public, HideBySig, SpecialName
+    set_DiagnosticMode(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig, SpecialName
+    SetAssertionErrorThrowingMode(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    SurfaceToDepthImage(Surface(In), Image&(Out), Image&(Out), Image&(Out)): PrivateScope, Public, HideBySig
+    ResetSurfaceToDepthImage(): PrivateScope, Public, HideBySig
+    MainBattery(Surface(In), Surface&(Out), Nullable`1&(Out), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
+    ResetMainBattery(): PrivateScope, Public, HideBySig
+    MainBottomRef(Surface(In), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
+    ResetMainBottomRef(): PrivateScope, Public, HideBySig
+    FlatnessCalc(Nullable`1(In), Point3D[](In), Nullable`1&(Out)): PrivateScope, Public, HideBySig
+    ResetFlatnessCalc(): PrivateScope, Public, HideBySig
+    SubBattery(Surface(In), Surface&(Out)): PrivateScope, Public, HideBySig
+    ResetSubBattery(): PrivateScope, Public, HideBySig
+    SubBottomRef(Surface(In), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
+    ResetSubBottomRef(): PrivateScope, Public, HideBySig
+    SavePlane(String(In), Plane3D(In)): PrivateScope, Public, HideBySig
+    ResetSavePlane(): PrivateScope, Public, HideBySig
+    SavePoints(Point3D[](In), String(In)): PrivateScope, Public, HideBySig
+    ResetSavePoints(): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
