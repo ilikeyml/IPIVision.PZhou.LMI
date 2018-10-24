@@ -11,7 +11,6 @@
       <Macro>SavePoints</Macro>
       <Macro>SubBattery</Macro>
       <Macro>SubBottomRef</Macro>
-      <Macro>SurfaceToDepthImage</Macro>
     </Macrofilters>
     <UserTypes />
     <ApplicationName>IPICodeApplication</ApplicationName>

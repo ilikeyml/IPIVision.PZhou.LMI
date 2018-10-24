@@ -31,7 +31,7 @@ Executes a single 'SubBottomRef' macrofilter iteration and returns true if there
         <member name="M:AdaptiveVision.IPICodeMacrofilters.ResetSubBattery">
             <summary> Resets state of the 'SubBattery' macrofilter.</summary>
         </member>
-        <member name="M:AdaptiveVision.IPICodeMacrofilters.SubBattery(AvlNet.Surface,AvlNet.Surface@)">
+        <member name="M:AdaptiveVision.IPICodeMacrofilters.SubBattery(AvlNet.Surface,AvlNet.Surface@,System.Nullable`1{System.Single}@,System.Nullable`1{System.Single}@)">
             <summary>
 Executes a single 'SubBattery' macrofilter iteration and returns true if there are still some iterations available and false otherwise.
 </summary>
@@ -55,17 +55,9 @@ Executes a single 'MainBottomRef' macrofilter iteration and returns true if ther
         <member name="M:AdaptiveVision.IPICodeMacrofilters.ResetMainBattery">
             <summary> Resets state of the 'MainBattery' macrofilter.</summary>
         </member>
-        <member name="M:AdaptiveVision.IPICodeMacrofilters.MainBattery(AvlNet.Surface,AvlNet.Surface@,System.Nullable`1{System.Single}@,System.Nullable`1{System.Single}@,System.Nullable`1{System.Single}@)">
+        <member name="M:AdaptiveVision.IPICodeMacrofilters.MainBattery(AvlNet.Surface,AvlNet.Surface@,System.Nullable`1{System.Single}@)">
             <summary>
 Executes a single 'MainBattery' macrofilter iteration and returns true if there are still some iterations available and false otherwise.
-</summary>
-        </member>
-        <member name="M:AdaptiveVision.IPICodeMacrofilters.ResetSurfaceToDepthImage">
-            <summary> Resets state of the 'SurfaceToDepthImage' macrofilter.</summary>
-        </member>
-        <member name="M:AdaptiveVision.IPICodeMacrofilters.SurfaceToDepthImage(AvlNet.Surface,AvlNet.Image@,AvlNet.Image@,AvlNet.Image@)">
-            <summary>
-Executes a single 'SurfaceToDepthImage' macrofilter iteration and returns true if there are still some iterations available and false otherwise.
 </summary>
         </member>
         <member name="M:AdaptiveVision.IPICodeMacrofilters.Exit">

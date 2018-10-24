@@ -51,7 +51,8 @@
     <Reference Include="Emgu.CV.World, Version=3.4.3.3016, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.3.4.3.3016\lib\net35\Emgu.CV.World.dll</HintPath>
     </Reference>
-    <Reference Include="IPICodeMacrofilters">
+    <Reference Include="IPICodeMacrofilters, Version=4.10.5.63729, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Documents\YunCloud\ProjectFile\IPI\AVCode20181023\IPICodeMacrofilters.dll</HintPath>
     </Reference>
     <Reference Include="System" />

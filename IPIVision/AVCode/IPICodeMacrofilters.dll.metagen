@@ -25,15 +25,13 @@ Class AdaptiveVision.IPICodeMacrofilters: AutoLayout, AnsiClass, Class, Public, 
     get_DiagnosticMode(): PrivateScope, Public, HideBySig, SpecialName
     set_DiagnosticMode(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig, SpecialName
     SetAssertionErrorThrowingMode(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
-    SurfaceToDepthImage(Surface(In), Image&(Out), Image&(Out), Image&(Out)): PrivateScope, Public, HideBySig
-    ResetSurfaceToDepthImage(): PrivateScope, Public, HideBySig
-    MainBattery(Surface(In), Surface&(Out), Nullable`1&(Out), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
+    MainBattery(Surface(In), Surface&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetMainBattery(): PrivateScope, Public, HideBySig
     MainBottomRef(Surface(In), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetMainBottomRef(): PrivateScope, Public, HideBySig
     FlatnessCalc(Nullable`1(In), Point3D[](In), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetFlatnessCalc(): PrivateScope, Public, HideBySig
-    SubBattery(Surface(In), Surface&(Out)): PrivateScope, Public, HideBySig
+    SubBattery(Surface(In), Surface&(Out), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetSubBattery(): PrivateScope, Public, HideBySig
     SubBottomRef(Surface(In), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetSubBottomRef(): PrivateScope, Public, HideBySig

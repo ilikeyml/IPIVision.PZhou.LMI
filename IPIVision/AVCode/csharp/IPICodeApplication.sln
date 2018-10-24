@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPICodeApplication", "IPICodeApplication.csproj", "{3C5B8E72-4695-48D2-8C76-CF4D0E772327}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C5B8E72-4695-48D2-8C76-CF4D0E772327}.Debug|x64.ActiveCfg = Debug|x64
+		{3C5B8E72-4695-48D2-8C76-CF4D0E772327}.Debug|x64.Build.0 = Debug|x64
+		{3C5B8E72-4695-48D2-8C76-CF4D0E772327}.Release|x64.ActiveCfg = Release|x64
+		{3C5B8E72-4695-48D2-8C76-CF4D0E772327}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
