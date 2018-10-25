@@ -39,7 +39,7 @@ Executes a single 'SubBattery' macrofilter iteration and returns true if there a
         <member name="M:AdaptiveVision.IPICodeMacrofilters.ResetFlatnessCalc">
             <summary> Resets state of the 'FlatnessCalc' macrofilter.</summary>
         </member>
-        <member name="M:AdaptiveVision.IPICodeMacrofilters.FlatnessCalc(System.Nullable`1{AvlNet.Plane3D},AvlNet.Point3D[],System.Nullable`1{System.Single}@)">
+        <member name="M:AdaptiveVision.IPICodeMacrofilters.FlatnessCalc(System.Nullable`1{AvlNet.Plane3D},AvlNet.Point3D[],System.Single[]@)">
             <summary>
 Executes a single 'FlatnessCalc' macrofilter iteration and returns true if there are still some iterations available and false otherwise.
 </summary>

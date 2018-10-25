@@ -88,14 +88,20 @@ namespace IPIVision
             Plane3D transedVPlane = SurfaceMath.TransPlane(VPlane.Value, BtmBtmMatrix);
             Plane3D transedHPlane = SurfaceMath.TransPlane(HPlane.Value, BtmBtmMatrix);
 
-            float? dist01;
-            macro.FlatnessCalc(transedHPlane, transedSurface, out dist01);
-            float? dist02;
-            macro.FlatnessCalc(transedVPlane, transedSurface, out dist02);
 
-            string resultStr = $"FAI7_2,{FAI7_2.Value}, FAI8,{FAI8.Value},Dis01,{dist01.Value},Dist02,{dist02.Value}{Environment.NewLine}";
 
-            File.AppendAllText(@"C:\grr_01.csv", resultStr);
+            //前X取中值
+            float[] dist01Array;
+            macro.FlatnessCalc(transedHPlane, transedSurface, out dist01Array);
+            float dist01 = SurfaceMath.GetMaxValue(dist01Array, 80);
+
+            float[] dist02Array;
+            macro.FlatnessCalc(transedVPlane, transedSurface, out dist02Array);
+            float dist02 = SurfaceMath.GetMaxValue(dist02Array, 80);
+            
+            string resultStr = $"FAI7_2,{FAI7_2.Value}, FAI8,{FAI8.Value},Dis01,{dist01},Dist02,{dist02}{Environment.NewLine}";
+
+            File.AppendAllText($@"C:\grr_btm{indexNum}.csv", resultStr);
 
 ;
         }
@@ -117,10 +123,42 @@ namespace IPIVision
             }
    
         }
-        private void TopRunner(string topSurfaceName, string topSurfaceRefName)
+        private void TopRunner(string TopTopSurfaceName, string BottomTopSurfaceName)
         {
-                
-        
+            Surface TopTopSurface = null;
+            AVL.LoadSurface(TopTopSurfaceName, out TopTopSurface);
+            Surface TopTopSurfaceCrop;
+            float? FAI7_1;
+            macro.MainBattery(TopTopSurface, out TopTopSurfaceCrop, out FAI7_1);
+
+            Surface BottomTopSurface = null;
+            AVL.LoadSurface(BottomTopSurfaceName, out BottomTopSurface);
+            Plane3D? VPlane;
+            Plane3D? HPlane;
+            macro.MainBottomRef(BottomTopSurface, out VPlane, out HPlane);
+
+            Point3D[] transedSurface = SurfaceMath.TransformSurface(TopTopSurfaceCrop, TopTopMatrix);
+
+            Plane3D transedVPlane = SurfaceMath.TransPlane(VPlane.Value, BtmTopMatrix);
+            Plane3D transedHPlane = SurfaceMath.TransPlane(HPlane.Value, BtmTopMatrix);
+
+
+
+            //前X取中值
+            float[] dist01Array;
+            macro.FlatnessCalc(transedHPlane, transedSurface, out dist01Array);
+            float dist01 = SurfaceMath.GetMaxValue(dist01Array, 80);
+
+            float[] dist02Array;
+            macro.FlatnessCalc(transedVPlane, transedSurface, out dist02Array);
+            float dist02 = SurfaceMath.GetMaxValue(dist02Array, 80);
+
+
+            string resultStr = $"FAI7_1,{FAI7_1},D1,{dist01},D2,{dist02}{Environment.NewLine}";
+
+            File.AppendAllText($@"C:\grr_top{indexNum}.csv", resultStr);
+
+
         }
         private void ButtonLoadM_Click(object sender, RoutedEventArgs e)
         {
@@ -145,7 +183,7 @@ namespace IPIVision
         private void ButtonCalc_Click(object sender, RoutedEventArgs e)
         {
             TMatrix = SurfaceCalibration.Solve(MMatrix, SMatrix);
-            SurfaceCalibration.SerializeMatrixToXml<Matrix<double>>(TMatrix, @"C:\LMIVision\BtmBtmTrans.xml");
+            SurfaceCalibration.SerializeMatrixToXml(TMatrix, @"C:\LMIVision\BtmBtmTrans.xml");
             _context.Post(new SendOrPostCallback((o) => {
                 MsgBox.Text = SurfaceCalibration.MatrixToString(TMatrix);
             }), null);
@@ -158,9 +196,11 @@ namespace IPIVision
         }
         string[] TopSurfaceFile = new string[0];
         string[] TopSurfaceRefFile = new string[0];
+
+        string indexNum = "10";
         private void ButtonLoadTop_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = @"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\LMI 1013\AVData\Main";
+            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\TOP\TOP_TOP\";
             TopSurfaceFile = Directory.GetFiles(filePath, "*.avdata");
             _context.Post(new SendOrPostCallback((o) => {
                 MsgBox.Text = $" Top File Count {TopSurfaceFile.Length} ";
@@ -168,7 +208,7 @@ namespace IPIVision
         }
         private void ButtonLoadTopRef_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = @"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\LMI 1013\AVData\MainBottom";
+            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\BTM\BTM_TOP\";
             TopSurfaceRefFile = Directory.GetFiles(filePath, "*.avdata");
             _context.Post(new SendOrPostCallback((o) => {
                 MsgBox.Text = $" Top Ref File Count {TopSurfaceRefFile.Length} ";
@@ -178,10 +218,7 @@ namespace IPIVision
         private void ButtonTopRun_Click(object sender, RoutedEventArgs e)
         {
             TopWorker.RunWorkerAsync();
-            //string[] data = File.ReadAllLines(@"C:\Users\ilike\Desktop\test\btm.txt");
-            //var ss = SurfaceCalibration.CreateMatrixFromFile(data, true, data.Length);
-            //var sssss = ss * toprefmatrix;
-            //File.AppendAllText(@"C:\Users\ilike\Desktop\test\btmTTT.txt", SurfaceCalibration.MatrixToString(sssss));
+
             _context.Post(new SendOrPostCallback((o) => {
                 MsgBox.Text = $" Running........";
             }), null);
@@ -194,7 +231,7 @@ namespace IPIVision
 
         private void ButtonLoadBtm_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = @"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\01\TOP\TOP_BTM\";
+            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\TOP\TOP_BTM\";
             BtmSurfaceFile = Directory.GetFiles(filePath, "*.avdata");
             _context.Post(new SendOrPostCallback((o) => {
                 MsgBox.Text = $" Bottom File Count {BtmSurfaceFile.Length} ";
@@ -203,7 +240,7 @@ namespace IPIVision
 
         private void ButtonLoadBtmRef_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = @"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\01\BTM\BTM_BTM\";
+            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\BTM\BTM_BTM\";
             BtmSurfaceRefFile = Directory.GetFiles(filePath, "*.avdata");
             _context.Post(new SendOrPostCallback((o) => {
                 MsgBox.Text = $" Bottom REf File Count {BtmSurfaceRefFile.Length} ";

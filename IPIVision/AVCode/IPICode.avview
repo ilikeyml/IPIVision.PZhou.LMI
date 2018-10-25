@@ -1,15 +1,14 @@
 ﻿<Documents>
-  <HSplit>
-    <Views Width="0.998" Height="0.998">
-      <View Type="ImageView">
-        <Output Name="con_750db860_c83d_4120_b8aa_2d94ab49b788" Macro="FAI8" Start="Main" Instance="0" />
-        <Output Name="con_49e34506_20df_4b17_9d14_fc90d82d70b0" Macro="FAI8" Start="Main" Instance="0" />
-        <Output Name="con_8e93f88f_47ac_4ded_9901_9d217177fd7f" Macro="FAI8" Start="Main" Instance="0" />
-        <Output Name="con_c8ef91e6_c327_4c98_b46b_d62d536ed769" Macro="FAI8" Start="Main" Instance="0" />
-        <ViewState>
-          <ViewMode Mode="Manual" Scale="0.166666666666667" X="379" Y="154" />
-        </ViewState>
+  <VSplit>
+    <Views Width="0.498" Height="0.998">
+      <View Type="TextView">
+        <Output Name="con_07354b6b_b00e_42ee_983a_c9d62149def3" Macro="FlatnessCalc" Start="Main" Instance="0" />
       </View>
     </Views>
-  </HSplit>
+    <Views Width="0.496" Height="0.998">
+      <View Type="TextView">
+        <Output Name="con_59093dcd_9da2_4aeb_9035_f2cc06e08fe8" Macro="FlatnessCalc" Start="Main" Instance="0" />
+      </View>
+    </Views>
+  </VSplit>
 </Documents>

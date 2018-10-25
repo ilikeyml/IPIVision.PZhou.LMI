@@ -54,7 +54,7 @@ public Main()
 	SubBattery
 	(
 		inObject: con_90961b5e_044e_48ec_8f09_70bbf82e75ac
-		outSubCalcSurface: Nil
+		outSubCalcSurface: con_658a5658_b1ac_4c10_ab8e_bef433b77783
 		outFAI7_2: Nil
 		outFAI8: con_b545c778_fc9c_4d21_8596_e89f8a4cdab8
 	)
@@ -63,17 +63,14 @@ public Main()
 	(
 		inObject: con_55af02d4_1bb2_47d7_8c59_7a38b45f3e0d
 		outBottomRefVerticalPlane: Nil
-		outRefPlane: Nil
+		outRefPlane: con_03f905e9_3680_49c0_a0fe_6e34370123e2
 	)
 
-	disabled FlatnessCalc
+	FlatnessCalc
 	(
-		inRefVerticalPlane: Nil
-		inPoints:
-			Point3DArray
-			{
-			}
-		outDistMax: Nil
+		inRefVerticalPlane: con_03f905e9_3680_49c0_a0fe_6e34370123e2
+		inPoints: con_658a5658_b1ac_4c10_ab8e_bef433b77783
+		outSortedValues: Nil
 	)
 
 	//:HIDDENPORT[inString4] TRUE
@@ -539,12 +536,12 @@ public MainSurfaceValue(Image inNormImage, CoordinateSystem2D? inCoordinateSyste
 				Origin:
 					Point2D
 					(
-						X: -471.833374
-						Y: -298.068726
+						X: -474.175354
+						Y: -149.144592
 					)
 				Angle: 0.000000
-				Width: 350.949158
-				Height: 219.046478
+				Width: 343.306519
+				Height: 85.726044
 			)
 		inRectangleAlignment: inCoordinateSystem
 		inFrameWidth: con_e9c5d128_009b_4982_898c_9f7c1c67d683
@@ -1504,7 +1501,7 @@ public MainBottomRefRegion(CoordinateSystem2D inRectangleAlignment, Integer inFr
 	outRegion = con_a36c4459_311b_489d_ac08_bc77707f862f
 }
 
-public FlatnessCalc(Plane3D? inRefVerticalPlane, Point3DArray inPoints, Real? outDistMax) step
+public FlatnessCalc(Plane3D? inRefVerticalPlane, Point3DArray inPoints, RealArray? outSortedValues) step
 {
 	PointToPlaneDistance3D
 	(
@@ -1522,16 +1519,17 @@ public FlatnessCalc(Plane3D? inRefVerticalPlane, Point3DArray inPoints, Real? ou
 		outElementExisted: Nil
 	)
 
-	GetMaximumElement<Real?>
+	//:HIDDENPORT[inSortingOrder] TRUE
+	SortArray<Real>
 	(
 		inArray: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
 		inValues: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
-		outElement: Nil
-		outValue: con_fb126792_bdef_4bd4_a76b_8de301140e3f
-		outIndex: Nil
+		inSortingOrder: Descending
+		outSortedArray: con_59093dcd_9da2_4aeb_9035_f2cc06e08fe8
+		outSortedValues: con_07354b6b_b00e_42ee_983a_c9d62149def3
 	)
 
-	outDistMax = con_fb126792_bdef_4bd4_a76b_8de301140e3f
+	outSortedValues = con_07354b6b_b00e_42ee_983a_c9d62149def3
 }
 
 public SubBattery(Surface inObject, Surface? outSubCalcSurface, Real? outFAI7_2, Real? outFAI8) step
@@ -1812,7 +1810,7 @@ public SubSurfaceValue(CoordinateSystem2D? inCoordinateSystem, Surface inObject,
 					)
 				Angle: 0.000000
 				Width: 317.121826
-				Height: 304.817932
+				Height: 144.873169
 			)
 		inRectangleAlignment: inCoordinateSystem
 		inFrameWidth: con_244be735_4a1c_46e3_b23e_f884152f665d
@@ -3089,7 +3087,7 @@ public FAI8(Image inImageNormResize, CoordinateSystem2D? inCoordinateSystemResiz
 		inMaxInterpolationLength: 1
 		inMaxDeviationDelta: Nil
 		inMaxIncompleteness: 0.100000
-		outPath: con_c8ef91e6_c327_4c98_b46b_d62d536ed769
+		outPath: Nil
 		outEdges: Nil
 		outDeviationProfile: Nil
 		outAlignedFittingField: Nil

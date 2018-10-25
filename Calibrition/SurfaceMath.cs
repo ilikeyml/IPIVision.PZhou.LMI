@@ -1,6 +1,7 @@
 ﻿using AvlNet;
 using Emgu.CV;
 using Gocator;
+using System;
 using System.Collections.Generic;
 
 namespace Calibrition
@@ -90,6 +91,16 @@ namespace Calibrition
             return new Point3D((float)temp[0, 0], (float)temp[0, 1], (float)temp[0, 2]);
         }
 
+        public static float GetMaxValue(float[] rawValue, int topRange)
+        {
+            float sum = 0;
+            for (int i = 0; i < topRange; i++)
+            {
+                sum += rawValue[i];
+            }
 
+            return sum / topRange;
+
+        }
     }
 }

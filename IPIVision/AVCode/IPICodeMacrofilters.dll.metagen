@@ -29,7 +29,7 @@ Class AdaptiveVision.IPICodeMacrofilters: AutoLayout, AnsiClass, Class, Public, 
     ResetMainBattery(): PrivateScope, Public, HideBySig
     MainBottomRef(Surface(In), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetMainBottomRef(): PrivateScope, Public, HideBySig
-    FlatnessCalc(Nullable`1(In), Point3D[](In), Nullable`1&(Out)): PrivateScope, Public, HideBySig
+    FlatnessCalc(Nullable`1(In), Point3D[](In), Single[]&(Out)): PrivateScope, Public, HideBySig
     ResetFlatnessCalc(): PrivateScope, Public, HideBySig
     SubBattery(Surface(In), Surface&(Out), Nullable`1&(Out), Nullable`1&(Out)): PrivateScope, Public, HideBySig
     ResetSubBattery(): PrivateScope, Public, HideBySig
