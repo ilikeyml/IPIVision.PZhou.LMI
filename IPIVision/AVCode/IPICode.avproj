@@ -1,4 +1,4 @@
-﻿<AdaptiveVisionProject Name="IPICode" Version="4.10.5" Revision="63729" StartUpProgramName="Main">
+﻿<AdaptiveVisionProject Name="IPICode" Version="4.10.7" Revision="64301" StartUpProgramName="Main">
   <MacroRunnerLibSettings>
     <DllPath>IPICodeMacrofilters.dll</DllPath>
     <Namespace>AdaptiveVision</Namespace>

@@ -6,13 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using AdaptiveVision;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading;
 using AvlNet;
 using Gocator;
+using System.Windows;
+using System.Windows.Forms;
+
 namespace IPIVision
 {
     /// <summary>
@@ -22,18 +23,20 @@ namespace IPIVision
     {
         public static IPICodeMacrofilters macro;
         SynchronizationContext _context;
-        Matrix<double> MMatrix;
-        Matrix<double> SMatrix;
-        Matrix<double> TMatrix;
+        Matrix<double> MMatrix = new Matrix<double>(new double[0]);
+        Matrix<double> SMatrix = new Matrix<double>(new double[0]);
+        Matrix<double> TMatrix = new Matrix<double>(new double[0]);
         Matrix<double> TopTopMatrix;
         Matrix<double> TopBtmMatrix;
         Matrix<double> BtmTopMatrix;
         Matrix<double> BtmBtmMatrix;
+
+        string indexNum = "05";
         public MainWindow()
         {
             InitializeComponent();
             _context = SynchronizationContext.Current;
-            macro = IPICodeMacrofilters.Create(@"C:\Users\ilike\source\repos\IPIVision.PZhou.LMI\IPIVision\AVCode\IPICode.avproj");
+            macro = IPICodeMacrofilters.Create(@"C:\Users\Administrator\Source\Repos\ilikeyml\IPIVision.PZhou.LMI\IPIVision\AVCode\IPICode.avproj");
             TopTopMatrix = SurfaceCalibration.DeserializeXmlToMatrix<Matrix<double>>(@"C:\LMIVision\TopTopTrans.xml");
             BtmTopMatrix = SurfaceCalibration.DeserializeXmlToMatrix<Matrix<double>>(@"C:\LMIVision\BtmTopTrans.xml");
             TopBtmMatrix = SurfaceCalibration.DeserializeXmlToMatrix<Matrix<double>>(@"C:\LMIVision\TopBtmTrans.xml");
@@ -51,7 +54,8 @@ namespace IPIVision
 
         private void BtmWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Finished ";
             }), null);
         }
@@ -61,7 +65,8 @@ namespace IPIVision
             for (int i = 0; i < BtmSurfaceFile.Length; i++)
             {
                 BottomRunner(BtmSurfaceFile[i], BtmSurfaceRefFile[i]);
-                _context.Post(new SendOrPostCallback((o) => {
+                _context.Post(new SendOrPostCallback((o) =>
+                {
                     MsgBox.Text = $" Finished {i.ToString()} ";
                 }), null);
             }
@@ -98,17 +103,18 @@ namespace IPIVision
             float[] dist02Array;
             macro.FlatnessCalc(transedVPlane, transedSurface, out dist02Array);
             float dist02 = SurfaceMath.GetMaxValue(dist02Array, 80);
-            
+
             string resultStr = $"FAI7_2,{FAI7_2.Value}, FAI8,{FAI8.Value},Dis01,{dist01},Dist02,{dist02}{Environment.NewLine}";
 
             File.AppendAllText($@"C:\grr_btm{indexNum}.csv", resultStr);
 
-;
+            ;
         }
 
         private void TopWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = "Finished";
             }), null);
         }
@@ -117,11 +123,12 @@ namespace IPIVision
             for (int i = 0; i < TopSurfaceFile.Length; i++)
             {
                 TopRunner(TopSurfaceFile[i], TopSurfaceRefFile[i]);
-                _context.Post(new SendOrPostCallback((o) => {
+                _context.Post(new SendOrPostCallback((o) =>
+                {
                     MsgBox.Text = $" Finished {i.ToString()} ";
                 }), null);
             }
-   
+
         }
         private void TopRunner(string TopTopSurfaceName, string BottomTopSurfaceName)
         {
@@ -160,57 +167,82 @@ namespace IPIVision
 
 
         }
+
+        string fileNameM = "";
         private void ButtonLoadM_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            System.Windows.Forms.OpenFileDialog ofdM = new System.Windows.Forms.OpenFileDialog();
+            if (ofdM.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string fileName = ofd.FileName;
-                string[] data = File.ReadAllLines(fileName);
-                MMatrix = SurfaceCalibration.CreateMatrixFromFile(data, true, 8);
+                fileNameM = ofdM.FileName;
+                //string[] dataM = File.ReadAllLines(fileNameM);
+                //MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
+   
             }
+            ofdM.Dispose();
+            //string fileNameM = @"C:\SyncFile\Project\IPI\Airpod battery\Calib\TOP_TOP_M.csv";
+            //string[] dataM = File.ReadAllLines(fileNameM);
+            //MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
+            //Matrix<double> sss = new Matrix<double>(MMatrix.Data);
+            MsgBox.Text = fileNameM;
         }
+
+        string fileNameS = "";
         private void ButtonLoadS_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+
+            OpenFileDialog ofdS = new OpenFileDialog();
+            if (ofdS.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string fileName = ofd.FileName;
-                string[] data = File.ReadAllLines(fileName);
-                SMatrix = SurfaceCalibration.CreateMatrixFromFile(data, false, 8);
+
+                fileNameS = ofdS.FileName;
+                //string[] dataS = File.ReadAllLines(fileNameS);
+                //SMatrix = SurfaceCalibration.CreateMatrixFromFile(dataS, false, dataS.Length);
+                MsgBox.Text = fileNameS;
             }
         }
         private void ButtonCalc_Click(object sender, RoutedEventArgs e)
         {
+
+            //string fileNameM = @"C:\SyncFile\Project\IPI\Airpod battery\Calib\TOP_TOP_M.csv";
+            string[] dataM = File.ReadAllLines(fileNameM);
+            MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
+
+            //string fileNameS = @"C:\SyncFile\Project\IPI\Airpod battery\Calib\TOP_TOP_S.csv";
+            string[] dataS = File.ReadAllLines(fileNameS);
+            SMatrix = SurfaceCalibration.CreateMatrixFromFile(dataS, false, dataS.Length);
+
             TMatrix = SurfaceCalibration.Solve(MMatrix, SMatrix);
-            SurfaceCalibration.SerializeMatrixToXml(TMatrix, @"C:\LMIVision\BtmBtmTrans.xml");
-            _context.Post(new SendOrPostCallback((o) => {
-                MsgBox.Text = SurfaceCalibration.MatrixToString(TMatrix);
-            }), null);
+            SurfaceCalibration.SerializeMatrixToXml(TMatrix, @"C:\LMIVision\BtmTopTrans.xml");
+            MsgBox.Text = $"Solve Data:{Environment.NewLine}{SurfaceCalibration.MatrixToString(TMatrix)}";
+
         }
         private void ButtonRecheck_Click(object sender, RoutedEventArgs e)
         {
+
             Matrix<double> recheck = MMatrix * TMatrix;
             File.AppendAllText(@"C:\recheck.csv", SurfaceCalibration.MatrixToString(recheck));
-            System.Windows.Forms.MessageBox.Show("OK");
+
+          System.Windows.Forms.MessageBox.Show("OK");
         }
         string[] TopSurfaceFile = new string[0];
         string[] TopSurfaceRefFile = new string[0];
 
-        string indexNum = "10";
         private void ButtonLoadTop_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\TOP\TOP_TOP\";
+            string filePath = $@"C:\SyncFile\Project\IPI\Airpod battery\dataset1025\TOP_TOP\{indexNum}";
             TopSurfaceFile = Directory.GetFiles(filePath, "*.avdata");
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Top File Count {TopSurfaceFile.Length} ";
             }), null);
         }
         private void ButtonLoadTopRef_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\BTM\BTM_TOP\";
+            string filePath = $@"C:\SyncFile\Project\IPI\Airpod battery\dataset1025\BTM_TOP\{indexNum}";
             TopSurfaceRefFile = Directory.GetFiles(filePath, "*.avdata");
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Top Ref File Count {TopSurfaceRefFile.Length} ";
             }), null);
         }
@@ -219,7 +251,8 @@ namespace IPIVision
         {
             TopWorker.RunWorkerAsync();
 
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Running........";
             }), null);
         }
@@ -231,18 +264,20 @@ namespace IPIVision
 
         private void ButtonLoadBtm_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\TOP\TOP_BTM\";
+            string filePath = $@"C:\SyncFile\Project\IPI\Airpod battery\dataset1025\TOP_BTM\{indexNum}";
             BtmSurfaceFile = Directory.GetFiles(filePath, "*.avdata");
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Bottom File Count {BtmSurfaceFile.Length} ";
             }), null);
         }
 
         private void ButtonLoadBtmRef_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = $@"C:\Users\ilike\Documents\YunCloud\ProjectFile\IPI\IPI 1023\10.23\{indexNum}\BTM\BTM_BTM\";
+            string filePath = $@"C:\SyncFile\Project\IPI\Airpod battery\dataset1025\BTM_BTM\{indexNum}";
             BtmSurfaceRefFile = Directory.GetFiles(filePath, "*.avdata");
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Bottom REf File Count {BtmSurfaceRefFile.Length} ";
             }), null);
         }
@@ -256,7 +291,8 @@ namespace IPIVision
             //var ss = SurfaceCalibration.CreateMatrixFromFile(data, true, data.Length);
             //var sssss = ss * toprefmatrix;
             //File.AppendAllText(@"C:\Users\ilike\Desktop\test\btmTTT.txt", SurfaceCalibration.MatrixToString(sssss));
-            _context.Post(new SendOrPostCallback((o) => {
+            _context.Post(new SendOrPostCallback((o) =>
+            {
                 MsgBox.Text = $" Running........";
             }), null);
         }

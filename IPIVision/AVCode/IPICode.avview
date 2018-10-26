@@ -1,14 +1,14 @@
 ﻿<Documents>
-  <VSplit>
-    <Views Width="0.498" Height="0.998">
-      <View Type="TextView">
-        <Output Name="con_07354b6b_b00e_42ee_983a_c9d62149def3" Macro="FlatnessCalc" Start="Main" Instance="0" />
+  <HSplit>
+    <Views Width="0.998" Height="0.998">
+      <View Type="View3D">
+        <Input Name="inObject" Index="8" Macro="Main" Start="Main" Instance="0" />
+        <Output Name="con_370beba9_872f_4e62_a6e9_f2ff9d1cb80a" Macro="Main" Start="Main" Instance="0" />
+        <ViewState>
+          <View Yaw="0.1268" Pitch="-0.0142" Dist="47.7120" CenterX="-0.0630" CenterY="0.0005" CenterZ="-1.5244" />
+          <Config ShowInfo="True" ShowBBox="False" Probe="False" GridMode="XY" Orientation="RHZUp" ProjectionMode="Perspective" ColoringMode="ZAxis" PointSize="0.4198" />
+        </ViewState>
       </View>
     </Views>
-    <Views Width="0.496" Height="0.998">
-      <View Type="TextView">
-        <Output Name="con_59093dcd_9da2_4aeb_9035_f2cc06e08fe8" Macro="FlatnessCalc" Start="Main" Instance="0" />
-      </View>
-    </Views>
-  </VSplit>
+  </HSplit>
 </Documents>

@@ -62,11 +62,11 @@ public Main()
 	SubBottomRef
 	(
 		inObject: con_55af02d4_1bb2_47d7_8c59_7a38b45f3e0d
-		outBottomRefVerticalPlane: Nil
+		outBottomRefVerticalPlane: con_370beba9_872f_4e62_a6e9_f2ff9d1cb80a
 		outRefPlane: con_03f905e9_3680_49c0_a0fe_6e34370123e2
 	)
 
-	FlatnessCalc
+	disabled FlatnessCalc
 	(
 		inRefVerticalPlane: con_03f905e9_3680_49c0_a0fe_6e34370123e2
 		inPoints: con_658a5658_b1ac_4c10_ab8e_bef433b77783
@@ -231,7 +231,7 @@ public SubLoader(Surface outObject, Double outXScale) step
 	//:HIDDENPORT[outFileName] TRUE
 	EnumerateFiles
 	(
-		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\IPI 1023\\10.23\\01\\TOP\\TOP_BTM"
+		inDirectory: "C:\\SyncFile\\Project\\IPI\\Airpod battery\\dataset1025\\TOP_BTM\\02"
 		inExtensions: "avdata"
 		inSortingOrder: Name
 		inRepeat: False
@@ -264,7 +264,7 @@ public MainLoader(Surface outObject) step
 	//:HIDDENPORT[outFileName] TRUE
 	EnumerateFiles
 	(
-		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\IPI 1023\\10.23\\01\\TOP\\TOP_TOP"
+		inDirectory: "C:\\SyncFile\\Project\\IPI\\Airpod battery\\dataset1025\\TOP_TOP\\02"
 		inExtensions: "avdata"
 		inSortingOrder: Name
 		inRepeat: False
@@ -398,8 +398,8 @@ public MainCoordinateSystemNoReSize(Image inNormImage, CoordinateSystem2D? outCo
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
-		inOutlierSuppression: Nil
+		inMaxIncompleteness: 0.500000
+		inOutlierSuppression: Tukey
 		outSegment: con_ac29cd57_5609_4f00_82b4_a4029ffb652d
 		outEdges: Nil
 		outDeviationProfile: Nil
@@ -476,7 +476,7 @@ public MainCoordinateSystemNoReSize(Image inNormImage, CoordinateSystem2D? outCo
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
+		inMaxIncompleteness: 0.500000
 		inOutlierSuppression: Tukey
 		outSegment: con_61cc3a49_bcc9_4946_8987_59767554f967
 		outEdges: Nil
@@ -536,12 +536,12 @@ public MainSurfaceValue(Image inNormImage, CoordinateSystem2D? inCoordinateSyste
 				Origin:
 					Point2D
 					(
-						X: -474.175354
-						Y: -149.144592
+						X: -360.786194
+						Y: -454.810547
 					)
 				Angle: 0.000000
-				Width: 343.306519
-				Height: 85.726044
+				Width: 167.828796
+				Height: 376.958679
 			)
 		inRectangleAlignment: inCoordinateSystem
 		inFrameWidth: con_e9c5d128_009b_4982_898c_9f7c1c67d683
@@ -582,6 +582,7 @@ public FAI7_1(Image inImageNormResize, CoordinateSystem2D? inCoordinateSystemRes
 		outPitch: Nil
 	)
 
+	//:BGIMAGE[inRectangle] @macroInput:inImageNormResize
 	//:COORDINATESYSTEM[inRectangle] @input:inRectangleAlignment
 	CreateRectangleRegion
 	(
@@ -837,8 +838,8 @@ public MainCoordinateSystemResize(Image inImageNormResize, CoordinateSystem2D? o
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
-		inOutlierSuppression: Nil
+		inMaxIncompleteness: 0.500000
+		inOutlierSuppression: Tukey
 		outSegment: con_a784e77b_eb6a_4dff_97b0_0bd15539d2a9
 		outEdges: Nil
 		outDeviationProfile: Nil
@@ -915,7 +916,7 @@ public MainCoordinateSystemResize(Image inImageNormResize, CoordinateSystem2D? o
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
+		inMaxIncompleteness: 0.500000
 		inOutlierSuppression: Tukey
 		outSegment: con_89a8ffb9_9747_4cab_bfdd_65a555dda459
 		outEdges: Nil
@@ -962,7 +963,7 @@ public MainBottomLoader(Surface outObject) step
 	//:HIDDENPORT[outFileName] TRUE
 	EnumerateFiles
 	(
-		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\IPI 1023\\10.23\\01\\BTM\\BTM_TOP"
+		inDirectory: "C:\\SyncFile\\Project\\IPI\\Airpod battery\\dataset1025\\BTM_TOP\\02"
 		inExtensions: "avdata"
 		inSortingOrder: Name
 		inRepeat: False
@@ -1207,17 +1208,17 @@ public MainCoordinateSystem(Image inNormImage, CoordinateSystem2D? outCoordinate
 						Point1:
 							Point2D
 							(
-								X: 581.418213
-								Y: 390.147217
+								X: 636.273438
+								Y: 364.231873
 							)
 						Point2:
 							Point2D
 							(
-								X: 590.406555
-								Y: 650.809937
+								X: 625.694519
+								Y: 635.800659
 							)
 					)
-				Width: 88.762848
+				Width: 236.984070
 			)
 		inFittingFieldAlignment: Nil
 		inScanCount: 30
@@ -1233,7 +1234,7 @@ public MainCoordinateSystem(Image inNormImage, CoordinateSystem2D? outCoordinate
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
+		inMaxIncompleteness: 0.500000
 		inOutlierSuppression: Nil
 		outSegment: con_53ff5abc_0522_405c_8720_fc0a82395e8b
 		outEdges: Nil
@@ -1311,7 +1312,7 @@ public MainCoordinateSystem(Image inNormImage, CoordinateSystem2D? outCoordinate
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
+		inMaxIncompleteness: 0.500000
 		inOutlierSuppression: Tukey
 		outSegment: con_76b0a0ec_84c4_4554_9c75_adca49fec832
 		outEdges: Nil
@@ -1525,7 +1526,7 @@ public FlatnessCalc(Plane3D? inRefVerticalPlane, Point3DArray inPoints, RealArra
 		inArray: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
 		inValues: con_c29bb1c2_1cc4_4c86_9faa_8ba743563bd1
 		inSortingOrder: Descending
-		outSortedArray: con_59093dcd_9da2_4aeb_9035_f2cc06e08fe8
+		outSortedArray: Nil
 		outSortedValues: con_07354b6b_b00e_42ee_983a_c9d62149def3
 	)
 
@@ -1641,14 +1642,14 @@ public SubCoordinateSystemNoResize(Image inNormImage, CoordinateSystem2D? outCoo
 						Point1:
 							Point2D
 							(
-								X: 1241.328979
-								Y: 287.045197
+								X: 1200.843140
+								Y: 232.262573
 							)
 						Point2:
 							Point2D
 							(
-								X: 1241.115112
-								Y: 577.942871
+								X: 1210.955811
+								Y: 683.410095
 							)
 					)
 				Width: 262.670654
@@ -1667,7 +1668,7 @@ public SubCoordinateSystemNoResize(Image inNormImage, CoordinateSystem2D? outCoo
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
+		inMaxIncompleteness: 0.500000
 		inOutlierSuppression: Tukey
 		outSegment: con_18f13096_2476_48ec_9d84_8f9f52824544
 		outEdges: Nil
@@ -1719,17 +1720,17 @@ public SubCoordinateSystemNoResize(Image inNormImage, CoordinateSystem2D? outCoo
 						Point1:
 							Point2D
 							(
-								X: 263.630676
-								Y: 857.568604
+								X: 74.495796
+								Y: 788.956116
 							)
 						Point2:
 							Point2D
 							(
-								X: 916.435852
-								Y: 840.466064
+								X: 1223.229004
+								Y: 823.319885
 							)
 					)
-				Width: 112.004601
+				Width: 218.695328
 			)
 		inFittingFieldAlignment: Nil
 		inScanCount: 30
@@ -1934,14 +1935,14 @@ public SubBottomRef(Surface inObject, Plane3D? outBottomRefVerticalPlane, Plane3
 						Point1:
 							Point2D
 							(
-								X: 10.798800
-								Y: 13.668352
+								X: 10.761905
+								Y: 9.056265
 							)
 						Point2:
 							Point2D
 							(
-								X: 10.824087
-								Y: 11.499680
+								X: 10.787191
+								Y: 6.887592
 							)
 					)
 				Width: 1.809282
@@ -2002,14 +2003,14 @@ public SubBottomRef(Surface inObject, Plane3D? outBottomRefVerticalPlane, Plane3
 						Point1:
 							Point2D
 							(
-								X: 10.849075
-								Y: 30.021612
+								X: 10.774395
+								Y: 25.354092
 							)
 						Point2:
 							Point2D
 							(
-								X: 10.828053
-								Y: 23.928930
+								X: 10.753373
+								Y: 19.261410
 							)
 					)
 				Width: 2.931343
@@ -2130,7 +2131,7 @@ public SubBottomLoader(Surface outObject) step
 	//:HIDDENPORT[outFileName] TRUE
 	EnumerateFiles
 	(
-		inDirectory: "C:\\Users\\ilike\\Documents\\YunCloud\\ProjectFile\\IPI\\IPI 1023\\10.23\\01\\BTM\\BTM_BTM"
+		inDirectory: "C:\\SyncFile\\Project\\IPI\\Airpod battery\\dataset1025\\BTM_BTM\\02"
 		inExtensions: "avdata"
 		inSortingOrder: Name
 		inRepeat: False
@@ -2547,20 +2548,20 @@ public SubCoordinationSystemResized(Image inImageNormResize, CoordinateSystem2D?
 						Point1:
 							Point2D
 							(
-								X: 1227.505249
-								Y: 911.499390
+								X: 1145.431519
+								Y: 721.772095
 							)
 						Point2:
 							Point2D
 							(
-								X: 1235.701416
-								Y: 1665.546143
+								X: 1158.401489
+								Y: 1810.467285
 							)
 					)
 				Width: 397.371643
 			)
 		inFittingFieldAlignment: Nil
-		inScanCount: 30
+		inScanCount: 40
 		inScanWidth: 5
 		inImageInterpolation: Bilinear
 		inEdgeScanParams:
@@ -2573,7 +2574,7 @@ public SubCoordinationSystemResized(Image inImageNormResize, CoordinateSystem2D?
 			)
 		inEdgeSelection: Best
 		inLocalBlindness: Nil
-		inMaxIncompleteness: 0.100000
+		inMaxIncompleteness: 0.500000
 		inOutlierSuppression: Tukey
 		outSegment: con_49ae44d5_1981_4ed1_90d3_744d900ba492
 		outEdges: Nil
@@ -2761,17 +2762,17 @@ public FAI7_2(Image inImageNormResize, CoordinateSystem2D? inCoordinateSystemRes
 						Point1:
 							Point2D
 							(
-								X: -275.767426
-								Y: 296.579102
+								X: -287.968384
+								Y: 298.760345
 							)
 						Point2:
 							Point2D
 							(
-								X: -271.216522
-								Y: 93.467743
+								X: -280.730164
+								Y: 88.154327
 							)
 					)
-				Width: 88.775604
+				Width: 60.260662
 			)
 		inFittingFieldAlignment: inCoordinateSystemResized
 		inScanCount: 40

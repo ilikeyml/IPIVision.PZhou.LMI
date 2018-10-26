@@ -26,11 +26,13 @@ namespace Calibrition
         public static unsafe Matrix<double> CreateMatrixFromFile(string[] fileData, bool isHomogeneous, int pointCount)
         {
             List<double> rawdata = new List<double>();
-
+            int subLength = 0;
             for (int i = 0; i < fileData.Length; i++)
             {
                 string[] subData = fileData[i].Split(',');
-                for (int j = 0; j < subData.Length; j++)
+
+                subLength = subData.Length;
+                for (int j = 0; j < subLength; j++)
                 {
                     rawdata.Add(Convert.ToDouble(subData[j]));
                 }
@@ -45,9 +47,9 @@ namespace Calibrition
             {
                 if (isHomogeneous)
                 {
-                    return new Matrix<double>(pointCount, 4, (IntPtr)dataPtr);
+                    return new Matrix<double>(pointCount, subLength+1, (IntPtr)dataPtr);
                 }
-                return new Matrix<double>(pointCount, 3, (IntPtr)dataPtr);
+                return new Matrix<double>(pointCount, subLength, (IntPtr)dataPtr);
             }
 
         }

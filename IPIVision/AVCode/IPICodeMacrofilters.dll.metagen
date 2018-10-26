@@ -6,11 +6,11 @@ Assembly IPICodeMacrofilters, Version=4.10.*, Culture=固定语言(固定国家/
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
-Assembly mri, Version=4.10.5.63729, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
+Assembly mri, Version=4.10.7.301, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
 	hash=None, flags=None
 Assembly AmrLibrary, Version=4.10.0.0, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
 	hash=None, flags=None
-Assembly Avl.Net.TS, Version=4.10.5.63729, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
+Assembly Avl.Net.TS, Version=4.10.7.301, Culture=neutral, PublicKeyToken=19e70c3b485211e1: 
 	hash=None, flags=None
 Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
 	hash=None, flags=None

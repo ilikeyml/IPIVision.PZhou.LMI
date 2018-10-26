@@ -39,11 +39,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Avl.Net">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Adaptive Vision\Adaptive Vision Library 4.10\bin\x64\Avl.Net.dll</HintPath>
+    <Reference Include="Avl.Net, Version=4.10.5.63729, Culture=neutral, PublicKeyToken=19e70c3b485211e1, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Adaptive Vision\Adaptive Vision Library 4.10\bin\x64\Avl.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Avl.Net.TS">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Adaptive Vision\Adaptive Vision Library 4.10\bin\x64\Avl.Net.TS.dll</HintPath>
+    <Reference Include="Avl.Net.TS, Version=4.10.5.63729, Culture=neutral, PublicKeyToken=19e70c3b485211e1, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Adaptive Vision\Adaptive Vision Library 4.10\bin\x64\Avl.Net.TS.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.UI, Version=3.4.3.3016, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.3.4.3.3016\lib\net35\Emgu.CV.UI.dll</HintPath>
