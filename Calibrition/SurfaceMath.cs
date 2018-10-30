@@ -1,6 +1,5 @@
 ﻿using AvlNet;
 using Emgu.CV;
-using Gocator;
 using System;
 using System.Collections.Generic;
 
@@ -8,12 +7,6 @@ namespace Calibrition
 {
     public static class SurfaceMath
     {
-        public static Surface ZValeToSurface(short[] zValue, GoContext mContext)
-        {
-            Surface surface = new Surface(mContext.Width, mContext.Height, zValue);
-            surface.SetOffsetAndScales(mContext.XOffset, mContext.XResolution, mContext.YOffset, mContext.YResolution, mContext.ZOffset, mContext.ZResolution);
-            return surface;
-        }
 
         public static Point3D[] TransformSurface(Surface inSurface, Matrix<double> TMatrix)
         {
@@ -42,21 +35,7 @@ namespace Calibrition
             return TPoints.ToArray();
         }
 
-        public static GoContext  CreateContextFromSurface(SurfaceFormat sf)
-        {
-            return new GoContext()
-            {
-                Width = sf.Width,
-                Height = sf.Height,
-                XOffset = sf.XOffset,
-                XResolution = sf.XScale,
-                YOffset = sf.YOffset,
-                YResolution = sf.YScale,
-                ZOffset = sf.ZOffset,
-                ZResolution = sf.ZScale
 
-            };
-        }
 
         public static Plane3D TransPlane(Plane3D inPlane, Matrix<double> TMatrix)
         {

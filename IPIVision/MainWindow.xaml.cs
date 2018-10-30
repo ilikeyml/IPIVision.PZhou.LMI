@@ -10,7 +10,6 @@ using AdaptiveVision;
 using System.ComponentModel;
 using System.Threading;
 using AvlNet;
-using Gocator;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -30,6 +29,8 @@ namespace IPIVision
         Matrix<double> TopBtmMatrix;
         Matrix<double> BtmTopMatrix;
         Matrix<double> BtmBtmMatrix;
+
+
 
         string indexNum = "05";
         public MainWindow()
@@ -107,8 +108,6 @@ namespace IPIVision
             string resultStr = $"FAI7_2,{FAI7_2.Value}, FAI8,{FAI8.Value},Dis01,{dist01},Dist02,{dist02}{Environment.NewLine}";
 
             File.AppendAllText($@"C:\grr_btm{indexNum}.csv", resultStr);
-
-            ;
         }
 
         private void TopWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -175,15 +174,16 @@ namespace IPIVision
             if (ofdM.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 fileNameM = ofdM.FileName;
-                //string[] dataM = File.ReadAllLines(fileNameM);
-                //MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
-   
+                string[] dataM = File.ReadAllLines(fileNameM);
+                MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
+
             }
-            ofdM.Dispose();
+
             //string fileNameM = @"C:\SyncFile\Project\IPI\Airpod battery\Calib\TOP_TOP_M.csv";
             //string[] dataM = File.ReadAllLines(fileNameM);
             //MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
             //Matrix<double> sss = new Matrix<double>(MMatrix.Data);
+    
             MsgBox.Text = fileNameM;
         }
 
@@ -205,15 +205,16 @@ namespace IPIVision
         {
 
             //string fileNameM = @"C:\SyncFile\Project\IPI\Airpod battery\Calib\TOP_TOP_M.csv";
-            string[] dataM = File.ReadAllLines(fileNameM);
-            MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
+            //string[] dataM = File.ReadAllLines(fileNameM);
+            //MMatrix = SurfaceCalibration.CreateMatrixFromFile(dataM, true, dataM.Length);
 
             //string fileNameS = @"C:\SyncFile\Project\IPI\Airpod battery\Calib\TOP_TOP_S.csv";
-            string[] dataS = File.ReadAllLines(fileNameS);
-            SMatrix = SurfaceCalibration.CreateMatrixFromFile(dataS, false, dataS.Length);
+            //string[] dataS = File.ReadAllLines(fileNameS);
+            //SMatrix = SurfaceCalibration.CreateMatrixFromFile(dataS, false, dataS.Length);
+       
 
             TMatrix = SurfaceCalibration.Solve(MMatrix, SMatrix);
-            SurfaceCalibration.SerializeMatrixToXml(TMatrix, @"C:\LMIVision\BtmTopTrans.xml");
+            //SurfaceCalibration.SerializeMatrixToXml(TMatrix, @"C:\LMIVision\BtmTopTrans.xml");
             MsgBox.Text = $"Solve Data:{Environment.NewLine}{SurfaceCalibration.MatrixToString(TMatrix)}";
 
         }
@@ -283,6 +284,8 @@ namespace IPIVision
         }
 
         BackgroundWorker BtmWorker = new BackgroundWorker();
+
+        public Matrix<double> TMMatrix { get; private set; } = new Matrix<double>(new double[0]);
 
         private void ButtonBtmRun_Click(object sender, RoutedEventArgs e)
         {

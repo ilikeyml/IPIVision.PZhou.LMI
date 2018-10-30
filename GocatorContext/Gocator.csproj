@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Avl.Net">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Adaptive Vision\Adaptive Vision Library 4.10\bin\x64\Avl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Avl.Net.TS">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Adaptive Vision\Adaptive Vision Library 4.10\bin\x64\Avl.Net.TS.dll</HintPath>
+    </Reference>
+    <Reference Include="GoSdkNet, Version=1.0.6870.28157, Culture=neutral, PublicKeyToken=3e18828f1dab5c8c, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\GoSdkNet.dll</HintPath>
+    </Reference>
+    <Reference Include="kApiNet, Version=1.0.6822.16501, Culture=neutral, PublicKeyToken=aed51b4e56ae495f, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\kApiNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DualSensorSystem.cs" />
     <Compile Include="GoContext.cs" />
+    <Compile Include="GoDevice.cs" />
+    <Compile Include="GoMessageBundle.cs" />
+    <Compile Include="IDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
